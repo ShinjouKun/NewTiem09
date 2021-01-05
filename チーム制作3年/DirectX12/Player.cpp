@@ -48,13 +48,15 @@ void Player::Update()
 	camera->SetTarget(Vector3(position.x, position.y+6.0f, position.z));
 
 	velocity = Vector3(0,0,0);
-	//キー押し処理
+
+#pragma region キー押し処理
+
 	if (Input::KeyState(DIK_UP))
 	{
 		angle.x += 2.0f;
 		AIMPos.y -= 6.0f;
 	}
-	
+
 	if (Input::KeyState(DIK_DOWN))
 	{
 		angle.x -= 2.0f;
@@ -71,10 +73,57 @@ void Player::Update()
 		angle.y -= 2.0f;
 		AIMPos.x += 6.0f;
 	}
-	
 
-	
-		
+#pragma endregion
+
+#pragma region ゲームパッド処理
+
+	//　左スティック()
+
+	if (Input::pad_data.lX < 0) {
+		angle.y += 2.0f;
+		AIMPos.x -= 6.0f;
+
+	}
+	if (Input::pad_data.lX > 0) {
+		angle.y -= 2.0f;
+		AIMPos.x += 6.0f;
+
+	}
+	if (Input::pad_data.lY < 0) {		
+		angle.x += 2.0f;
+		AIMPos.y -= 6.0f;
+	}
+	if (Input::pad_data.lY > 0) {
+		angle.x -= 2.0f;
+		AIMPos.y += 6.0f;
+	}
+
+	//　右スティック
+	if (Input::pad_data.lZ < 0) {
+		camera->CameraMoveEyeVector({ -2.0f,0,0 });
+
+	}
+	if (Input::pad_data.lZ > 0) {
+		camera->CameraMoveEyeVector({ 2.0f,0,0 });
+
+	}
+	if (Input::pad_data.lRz < 0) {
+		camera->CameraMoveEyeVector({ 0,2.0f,0 });
+
+	}
+	if (Input::pad_data.lRz > 0) {
+		camera->CameraMoveEyeVector({ 0,-2.0f,0 });
+
+	}
+	//　ショット
+	if (Input::PushButton(BUTTON_A)) {
+		shotFlag = true;
+		shotcnt = 0;
+	}
+
+#pragma endregion
+
 	
 	if (shotFlag)
 	{
@@ -86,7 +135,7 @@ void Player::Update()
 	}
 	else
 	{
-	  if(Input::KeyDown(DIK_SPACE))
+		if(Input::KeyDown(DIK_SPACE))
 	    {
 		   shotFlag = true;
 		   shotcnt = 0;

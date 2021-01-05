@@ -156,6 +156,7 @@
     <ClCompile Include="CollisionPrimitive.cpp" />
     <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DirectXManager.cpp" />
+    <ClCompile Include="Easing.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -313,6 +314,7 @@
     <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXManager.h" />
+    <ClInclude Include="Easing.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="Input.h" />

@@ -67,9 +67,9 @@ void BaseScene::SetParticle(shared_ptr<ParticleEmitterBox> particle)
 
 void BaseScene::Start()
 {
- if(!isInit)
-  { 
-	 StartScene();
-	 isInit = true;
-  }
+	if(!isInit)
+	{ 
+		 StartScene();
+		 isInit = true;
+	}
 }
