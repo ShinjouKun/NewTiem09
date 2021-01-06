@@ -140,8 +140,7 @@ void Player::Update()
 		   shotFlag = true;
 		   shotcnt = 0;
 	    }
-	}
-	
+	}	
 
 }
 

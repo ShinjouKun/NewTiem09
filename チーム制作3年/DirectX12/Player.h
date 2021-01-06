@@ -21,6 +21,7 @@ public:
 	virtual void Update() override;
 	virtual void Rend() override;
 	virtual void Hit(BaseObject & other) override;
+
 private:
 	ObjectManager* objM;
     shared_ptr<ModelRenderer>playerModel;
@@ -32,4 +33,5 @@ private:
 	int shotcnt = 0;
 	bool hitFlag = false;
 	Vector3 AIMPos;
+
 };

@@ -19,8 +19,8 @@ void Title::StartScene()
 
 	objM->Add(new Player(Vector3(0, 8.0f, -50.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle,BaseScene::mSprite));
 
-	objM->Add(new Enemy(Vector3(0.0f, 6.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 0));
-	objM->Add(new Enemy(Vector3(4.0f, 6.0f, -150.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 1));
+	objM->Add(new Enemy(Vector3(0.0f, 6.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 0,mpattern::Fixation));
+	objM->Add(new Enemy(Vector3(4.0f, 6.0f, -150.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 1,mpattern::Fixation));
 	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
 	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/sougen.jpg");
 }
