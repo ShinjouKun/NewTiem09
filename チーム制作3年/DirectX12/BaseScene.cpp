@@ -58,7 +58,7 @@ void BaseScene::SetModel(std::shared_ptr<ModelRenderer> model)
 	mModel = model;
 }
 
-void BaseScene::SetParticle(shared_ptr<ParticleEmitterBox> particle)
+void BaseScene::SetParticle(shared_ptr<ParticleManager> particle)
 {
 	mParticle = particle;
 }

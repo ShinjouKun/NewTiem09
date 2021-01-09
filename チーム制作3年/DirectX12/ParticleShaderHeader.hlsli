@@ -11,7 +11,6 @@ struct VSOutput
 	float4 svpos : SV_POSITION;//頂点座標
 	float4 color:COLOR;
 	float scale:TEXCOORD;//スケール
-	
 };
 struct GSOutput
 {

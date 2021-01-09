@@ -91,7 +91,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance()->Load("Resouse/taihou.obj");
 	//Enemy
 	ModelLoader::GetInstance()->Load("Resouse/enemy2.obj");
-
+	//Bullet
+	ModelLoader::GetInstance()->Load("Resouse/Bullet.obj");
 
 	ModelLoader::GetInstance()->Load("Resouse/skydome.obj");
 	ModelLoader::GetInstance()->Load("Resouse/ground.obj");
@@ -103,7 +104,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
 	
 	//パーティクル
-	shared_ptr<ParticleEmitterBox>paricle = make_shared<ParticleEmitterBox>(pipeLine);
+	shared_ptr<ParticleManager>paricle = make_shared<ParticleManager>(pipeLine);
 	
 	//モデル
 	shared_ptr<ModelRenderer>model = make_shared<ModelRenderer>(pipeLine);

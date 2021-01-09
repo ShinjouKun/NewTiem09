@@ -14,6 +14,10 @@ void Camera::SetEye(Vector3 eye)
 	UpdateViewMatrix();
 }
 
+void Camera::SetAngle(Vector3 angle)
+{
+}
+
 void Camera::SetTarget(Vector3 target)
 {
 	Camera::target = target;

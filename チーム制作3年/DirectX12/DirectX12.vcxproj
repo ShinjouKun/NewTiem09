@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BaseScene.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionPrimitive.cpp" />
@@ -308,6 +309,7 @@
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BaseScene.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionPrimitive.h" />
