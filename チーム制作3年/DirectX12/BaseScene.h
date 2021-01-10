@@ -12,7 +12,7 @@ protected:
 	virtual~BaseScene();
 	shared_ptr<TexRenderer>mSprite;
 	shared_ptr<ModelRenderer>mModel;
-	shared_ptr<ParticleEmitterBox>mParticle;
+	shared_ptr<ParticleManager>mParticle;
 	
 public:
 	virtual void StartScene() = 0;
@@ -24,7 +24,7 @@ public:
 	std::shared_ptr<BaseScene>GetNextScene()const;
 	void SetSprite(shared_ptr<TexRenderer>sprite);
 	void SetModel(shared_ptr<ModelRenderer>model);
-	void SetParticle(shared_ptr<ParticleEmitterBox>particle);
+	void SetParticle(shared_ptr<ParticleManager>particle);
 private:
 	std::shared_ptr<BaseScene>mNext;
 	void Start();

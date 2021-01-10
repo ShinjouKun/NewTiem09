@@ -11,7 +11,7 @@ using namespace std;
 class Player :public BaseObject
 {
 public:
-	Player(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m,shared_ptr<ParticleEmitterBox>p,shared_ptr<TexRenderer>s);
+	Player(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p,shared_ptr<TexRenderer>s);
 	~Player();
 
 	void Shot();
@@ -26,9 +26,12 @@ public:
 private:
 	ObjectManager* objM;
     shared_ptr<ModelRenderer>playerModel;
-	shared_ptr<ParticleEmitterBox>playerParticle;
+	shared_ptr<ParticleManager>playerParticle;
+	shared_ptr<ParticleEmitterBox>playerParticleBox;
 	shared_ptr<TexRenderer>playerSprite;
 	Camera* camera;
+	//エフェクト発生点
+	Vector3 firePos;
 	//制御用フラグ
 	bool shotFlag =false;
 	int shotcnt = 0;

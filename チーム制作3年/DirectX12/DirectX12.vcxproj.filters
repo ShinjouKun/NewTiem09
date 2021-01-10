@@ -126,8 +126,13 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Acter</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Easing.cpp">
       <Filter>Math</Filter>
+=======
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Acter</Filter>
+>>>>>>> origin/しんじょーくん
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -258,10 +263,14 @@
     <ClInclude Include="Enemy.h">
       <Filter>Acter</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Easing.h">
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Boss.h">
+=======
+    <ClInclude Include="Bullet.h">
+>>>>>>> origin/しんじょーくん
       <Filter>Acter</Filter>
     </ClInclude>
   </ItemGroup>
