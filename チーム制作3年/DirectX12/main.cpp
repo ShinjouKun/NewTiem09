@@ -91,19 +91,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance()->Load("Resouse/taihou.obj");
 	//Enemy
 	ModelLoader::GetInstance()->Load("Resouse/enemy2.obj");
-
+	//Bullet
+	ModelLoader::GetInstance()->Load("Resouse/Bullet.obj");
 
 	ModelLoader::GetInstance()->Load("Resouse/skydome.obj");
 	ModelLoader::GetInstance()->Load("Resouse/ground.obj");
 
-	
-
-	
 	//スプライト
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
 	
 	//パーティクル
-	shared_ptr<ParticleEmitterBox>paricle = make_shared<ParticleEmitterBox>(pipeLine);
+	shared_ptr<ParticleManager>paricle = make_shared<ParticleManager>(pipeLine);
 	
 	//モデル
 	shared_ptr<ModelRenderer>model = make_shared<ModelRenderer>(pipeLine);
@@ -111,10 +109,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//サウンド
 	Sound* sound = new Sound();
 	sound->LoadSE("Resouse/endingse.wav");
-	sound->Play("Resouse/endingse.wav");
+	//sound->Play("Resouse/endingse.wav");
 	
 	Input* input = new Input();//インプットインスタンス生成
 	input->Init(window->GetHWND());//インプット初期化
+	input->InitGamepad(window->GetHWND());
 	//シーン
 	mScene = std::make_unique<SceneManager>(sprite, model, paricle);
 	while (true)
@@ -124,6 +123,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		DirectXManager::GetInstance()->Begin();
         //キー入力
 		input->Update();//input		
+		input->UpdateGamepad();
 		//描画
 		mScene->Update();
 		mScene->Draw();

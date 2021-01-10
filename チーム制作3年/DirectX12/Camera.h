@@ -11,6 +11,7 @@ public:
 	//カメラ用機能
 	static const Vector3& GetEye() { return eye; }//視点座標
 	static void SetEye(Vector3 eye);
+	static void SetAngle(Vector3 angle);
 	static const Vector3& GetTarget() { return target; }//注視点座標
 	static void SetTarget(Vector3 target);
 	static void CameraMoveVector(Vector3 move);//全て動く
