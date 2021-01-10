@@ -10,7 +10,7 @@ class SceneManager
 {
 public:
 	SceneManager(shared_ptr<TexRenderer> sprite,
-	shared_ptr<ModelRenderer>model, shared_ptr<ParticleEmitterBox>particle);
+	shared_ptr<ModelRenderer>model, shared_ptr<ParticleManager>particle);
 	~SceneManager();
 	void Update();
 	void Draw()const;
@@ -20,7 +20,6 @@ private:
 	void SetParticleToScene();
 	shared_ptr<TexRenderer>mSprite;
 	shared_ptr<ModelRenderer>mModel;
-	shared_ptr<ParticleEmitterBox>mParticle;
-
+	shared_ptr<ParticleManager>mParticle;
 	shared_ptr<BaseScene>mNowScene;
 };

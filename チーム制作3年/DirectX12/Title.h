@@ -9,7 +9,6 @@
 #include"Player.h"
 #include"Enemy.h"
 #include"ObjectManager.h"
-
 class Title:public BaseScene
 {
 public:
@@ -25,8 +24,8 @@ private:
 
 	virtual void DrawScene() override;
 
-	Camera* camera;
-	ObjectManager* objM;//オブジェクトマネージャー
+	Camera* camera;	
+	ObjectManager* objM;
 	Player* player;//プレイヤーの実体生成
 	Enemy* enemy;
 

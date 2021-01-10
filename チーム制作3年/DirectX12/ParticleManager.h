@@ -46,21 +46,11 @@ struct VertexParticle
 	Vector3 pos;//ポジション
 	Vector4 color;
 	float scale = 1.0f;//サイズ
+	Vector3 angle;
 };
 struct DirectVertexP
 {
 	XMFLOAT3 pos;
-};
-struct ParticleData//描画用
-{
-	std::vector<VertexParticle>vertex;
-	//GPUリソースの生成
-	ComPtr<ID3D12Resource> vertBuff;
-	//定数バッファ
-	ComPtr<ID3D12Resource> constBuff;
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
-	UINT texNum;//テクスチャ番号
-	Vector3 ancPoint3D;
 };
 struct ParticleStateus//パーティクル一粒のステータス
 {
@@ -75,47 +65,64 @@ struct ParticleStateus//パーティクル一粒のステータス
 	float eScale = 0.0f;
 	int frame = 0;//現在フレーム
 	int numFrame = 0;//終了フレーム
+
+	//アングル
+	Vector3 angle;
 };
+struct ParticleData//描画用
+{
+	std::vector<VertexParticle>vertex;
+	//GPUリソースの生成
+	ComPtr<ID3D12Resource> vertBuff;
+	//定数バッファ
+	ComPtr<ID3D12Resource> constBuff;
+	D3D12_VERTEX_BUFFER_VIEW vbView{};
+	UINT texNum;//テクスチャ番号
+	Vector3 ancPoint3D;
+	//パーティクルリスト
+	std::forward_list<ParticleStateus>particles;
+};
+
 class ParticleManager
 {
 public:
 	ParticleManager(PipeLine* pipe);
 	~ParticleManager();
 	void Init();
-	void Update();
-	void CreateBuff();
+	void Update(const string& key);
+	void OllUpDate();
+	void CreateBuff(const string & key);
 	void CreatePlane();//パーティクル用のいたポリ
 	void CreateTexture(const string& filename);//テクスチャの適用(いらないかも)
 	void CreateParticleData(const string& key,const string& filename);//パーティクル情報を作る
 	void DrawParticleBill(const string& key);//全方向ビルボード
 	void DrawParticleBillY(const string& key);//Y軸ビルボード
-
+	void OllDraw();
 	//パーティクル用リストに追加
-	void Add(int life, const Vector3& pos, const Vector3& vel, const Vector3& acc, float sScale, float eScale, const Vector4& color);
+	void Add(const string& key,int life, const Vector3& pos, const Vector3& vel, const Vector3& acc, float sScale, float eScale, const Vector4& color,const Vector3& angle);
 private:
 	PipeLine* pipeLine = nullptr;//パイプラインクラスの実体FixMe
-	ConstBuff*constMap;//定数バッファにデータを転送
+	//ConstBuff*constMap;//定数バッファにデータを転送
 	Matrix4 matProjectionP;//射影変換行列
-	ParticleData dataP;
+	//ParticleData dataP;
 	HRESULT result; 
 	map<string, ParticleData>particleDatas;//テクスチャのリスト
-	//パーティクルリスト
-	std::forward_list<ParticleStateus>particles;
+	UINT texNum;//テクスチャ番号
 	int vertCount = 1024;
 };
-class TexRenderer;//循環参照を避けたい
 class ParticleEmitterBox//パーティクルの発生源
 {
 public:
-	ParticleEmitterBox(PipeLine* pipe);
+	ParticleEmitterBox(shared_ptr<ParticleManager> partM);
 	~ParticleEmitterBox();
 	void LoadAndSet(const string& key,const string& filename);//TexLoaderを呼び出し、TexRenderに渡してバッファをセットする
-	void EmitterUpdate(const string& key, const Vector3& pos);//四方に広がる
-	void EmitterUpdateUpGas(const string& key, const Vector3& pos);//上に排出される
+	void EmitterUpdate(const string& key, const Vector3& pos,const Vector3& angle);//四方に広がる
+	void EmitterUpdateUpGas(const string& key, const Vector3& pos, const Vector3& angle);//上に排出される
 	void SetPos(Vector3 pos);
+	void SetAngle(Vector3 angle);
 private:
 	PipeLine* pipeLine = nullptr;//パイプラインクラスの実体FixMe
 	Vector3 pos;
-	ParticleManager* particle;
-	TexRenderer* rend;
+	Vector3 angle;
+	shared_ptr<ParticleManager> particle;
 };
