@@ -14,13 +14,26 @@ Title::~Title()
 
 void Title::StartScene()
 {
+	p_pos = Vector3(0, 8.0f, -50.0f);
+
 	objM = new ObjectManager();
 	objM->Claer();
 
-	objM->Add(new Player(Vector3(0, 8.0f, -50.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle,BaseScene::mSprite));
+	objM->Add(new Player(p_pos, Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle,BaseScene::mSprite));
 
-	objM->Add(new Enemy(Vector3(0.0f, 6.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 0,mpattern::Fixation));
-	objM->Add(new Enemy(Vector3(4.0f, 6.0f, -150.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, 1,mpattern::Fixation));
+	objM->Add(new Enemy(1,Vector3(0.0f, 6.0f, -180.0f),
+		Vector3(0, 0, 0), objM,
+		BaseScene::mModel,
+		0,mpattern::Fixation));
+
+	objM->Add(new Enemy(1, Vector3(8.0f, 6.0f,p_pos.z+20),
+		Vector3(0, 0, 0), objM,
+		BaseScene::mModel,1,
+		mpattern::Tracking_A, 
+		Vector3(8.0f,6.0f,p_pos.z -50)));
+
+
+
 	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
 	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/sougen.jpg");
 }
@@ -34,7 +47,7 @@ void Title::DrawScene()
 {
 	
 	DirectXManager::GetInstance()->SetData3D();
-	BaseScene::mModel->Draw("Sora", Vector3(0,0,-90.0f), Vector3(0, 0, 0), Vector3(5,5,5));
+	//BaseScene::mModel->Draw("Sora", Vector3(0,0,-90.0f), Vector3(0, 0, 0), Vector3(5,5,5));
 	BaseScene::mModel->Draw("Ground", Vector3(-20.0f, 4.0f,-90.0f), Vector3(0, 0, 0), Vector3(5, 5, 5));
 	objM->Draw();
 }

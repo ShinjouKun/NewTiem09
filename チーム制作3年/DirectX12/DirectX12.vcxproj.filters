@@ -261,5 +261,8 @@
     <ClInclude Include="Easing.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -29,4 +29,8 @@ private:
 	ObjectManager* objM;//オブジェクトマネージャー
 	Player* player;//プレイヤーの実体生成
 	Enemy* enemy;
+
+	Vector3 p_pos;
+
+
 };

@@ -3,6 +3,9 @@
 #include"BaseObject.h"
 #include<memory>
 #include"ModelRenderer.h"
+#include"Player.h"
+#include"Easing.h"
+
 using namespace std;
 
 enum mpattern {
@@ -18,12 +21,14 @@ class Enemy :public BaseObject
 {
 
 public:
-	Enemy(Vector3 pos,
+	Enemy(int HP, 
+		Vector3 pos,
 		Vector3 ang,
 		ObjectManager* obj,
 		shared_ptr<ModelRenderer>m,
 		int number,
-		mpattern mpattern);
+		mpattern mpattern,		
+		Vector3 appearancePos = Vector3(0, 0, 0));
 
 	~Enemy();
 	// BaseObject を介して継承されました
@@ -38,6 +43,7 @@ public:
 
 	void MovePattern(mpattern patternnum);
 
+	
 private:
 	ObjectManager* objM;
 	std::shared_ptr<ModelRenderer>enemyModel;
@@ -47,10 +53,13 @@ private:
 	string num;//複数用ナンバー
 	string numName;//上二つの複合体
 	
-	//int move_pattern;
 	bool hitFlag = false;
 	mpattern move_pattern;
 
-	//Player* player;
+	int hp;
+	int time;
+
+	bool AppearanceFlag = false;
+	Vector3 AppearancePos; //出現場所
 
 };

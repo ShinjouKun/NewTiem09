@@ -35,11 +35,12 @@ void Player::Init()
 	death = false;
 	objType = ObjectType::PLAYER;
 	SphereSize = 1.0f;
-	position = Vector3(0.0f, 6.0f, -90.0f);
+	//position = Vector3(0.0f, 6.0f, -90.0f);
 	angle.x = 40.0f;
 	angle.y = 180.0f;
 	AIMPos = Vector3(Window::Window_Width/2,Window::Window_Height/2,0.0f);
-	speed = 0.1f;	
+	speed = 0.1f;
+
 }
 
 void Player::Update()
@@ -116,6 +117,18 @@ void Player::Update()
 		camera->CameraMoveEyeVector({ 0,-2.0f,0 });
 
 	}
+
+	if (Input::PushButton(BUTTON_B))
+	{
+		camera->CameraMoveEyeVector({ 0,180.0f,0 });
+
+	}
+	if (Input::PushButton(BUTTON_X))
+	{
+		position.z -= 1;
+
+	}
+
 	//　ショット
 	if (Input::PushButton(BUTTON_A)) {
 		shotFlag = true;
@@ -141,6 +154,9 @@ void Player::Update()
 		   shotcnt = 0;
 	    }
 	}	
+
+	position.z -= 1 * speed;
+
 
 }
 

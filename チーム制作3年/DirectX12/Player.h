@@ -22,6 +22,7 @@ public:
 	virtual void Rend() override;
 	virtual void Hit(BaseObject & other) override;
 
+
 private:
 	ObjectManager* objM;
     shared_ptr<ModelRenderer>playerModel;
