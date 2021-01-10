@@ -97,9 +97,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance()->Load("Resouse/skydome.obj");
 	ModelLoader::GetInstance()->Load("Resouse/ground.obj");
 
-	
-
-	
 	//スプライト
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);
 	

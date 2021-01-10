@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include"Title.h"
+#include"GamePlay.h"
 
 SceneManager::SceneManager(shared_ptr<TexRenderer> sprite, shared_ptr<ModelRenderer> model, shared_ptr<ParticleManager>particle)
 	:mSprite(sprite), mModel(model), mParticle(particle),
@@ -16,8 +17,6 @@ SceneManager::~SceneManager()
 
 void SceneManager::Update()
 {
-	mNowScene->Update();
-	
 	auto next = mNowScene->GetNextScene();
 	if (next)
 	{
@@ -27,8 +26,9 @@ void SceneManager::Update()
 		SetParticleToScene();
 		SetSpriteToScene();
 	}
+	//‡”Ô‚É’ˆÓ
+	mNowScene->Update();
 	mParticle->OllUpDate();
-	
 }
 
 void SceneManager::Draw() const
