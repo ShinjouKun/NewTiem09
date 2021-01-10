@@ -39,7 +39,7 @@ void Player::Init()
 	angle.x = 40.0f;
 	angle.y = 180.0f;
 	AIMPos = Vector3(Window::Window_Width/2,Window::Window_Height/2,0.0f);
-	speed = 0.1f;
+	speed = 0.2f;
 
 }
 

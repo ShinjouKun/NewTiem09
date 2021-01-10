@@ -101,34 +101,62 @@ void Enemy::MovePattern(mpattern patternnum)
 		//	speed = 0.1f;
 		//}
 
-		if (!AppearanceFlag) {
+		//if (!AppearanceFlag) {
+		//	if (time < 200) time++;
+		//	position.z = Easing::ease_in_quint(time, position.z,
+		//		(AppearancePos.z) - position.z, 100);
+		//}
+		//if (position.z <= AppearancePos.z)		//　プレイヤーより後ろ
+		//{
+		//	//speed = 0.8f;
+		//
+		//	AppearanceFlag = true;
+		//}
+		//if(AppearanceFlag) //　プレイヤーより前
+		//{
+		//	speed = 0.1f;
+		//}
 
-			if (time < 200) time++;
-			position.z = Easing::ease_in_quint(time, position.z,
-				(AppearancePos.z) - position.z, 100);
-		}
-		if (position.z <= AppearancePos.z)		//　プレイヤーより後ろ
+		Appearance();
+
+		if (AppearanceFlag) //　プレイヤーより前
 		{
-			//speed = 0.8f;
-		
-			AppearanceFlag = true;
-		}
-		if(AppearanceFlag) //　プレイヤーより前
-		{
-			speed = 0.1f;
+			speed = 0.2f;
 		}
 
 		break;
 
 	case mpattern::Tracking_B:
 
+		Appearance();
+
 		break;
 
 	case mpattern::Tracking_C:
+
+
+
 
 		break;
 
 	}
 
 	   
+}
+
+void Enemy::Appearance()
+{
+	if (!AppearanceFlag) {
+
+		if (time < 200) time++;
+		position = Easing::ease_in_quint(time, position,
+			(AppearancePos) - position, 100);
+	}
+	if (position.z <= AppearancePos.z)		//　プレイヤーより後ろ
+	{
+		//speed = 0.8f;
+
+		AppearanceFlag = true;
+	}
+	
 }

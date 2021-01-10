@@ -43,6 +43,7 @@ public:
 
 	void MovePattern(mpattern patternnum);
 
+	void Appearance();
 	
 private:
 	ObjectManager* objM;
@@ -61,5 +62,5 @@ private:
 
 	bool AppearanceFlag = false;
 	Vector3 AppearancePos; //oŒ»êŠ
-
+	//float AppearanceTime; //oŒ»ŠÔ
 };

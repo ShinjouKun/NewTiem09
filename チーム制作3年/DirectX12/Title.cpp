@@ -23,14 +23,21 @@ void Title::StartScene()
 
 	objM->Add(new Enemy(1,Vector3(0.0f, 6.0f, -180.0f),
 		Vector3(0, 0, 0), objM,
-		BaseScene::mModel,
-		0,mpattern::Fixation));
+		BaseScene::mModel,0,
+		mpattern::Fixation));
 
 	objM->Add(new Enemy(1, Vector3(8.0f, 6.0f,p_pos.z+20),
 		Vector3(0, 0, 0), objM,
 		BaseScene::mModel,1,
 		mpattern::Tracking_A, 
 		Vector3(8.0f,6.0f,p_pos.z -50)));
+
+	objM->Add(new Enemy(1, Vector3(-20.0f, 6.0f, p_pos.z + 20),
+		Vector3(0, 0, 0), objM,
+		BaseScene::mModel, 2,
+		mpattern::Tracking_A,
+		Vector3(-10.0f, 20.0f, p_pos.z - 100)));
+
 
 
 
