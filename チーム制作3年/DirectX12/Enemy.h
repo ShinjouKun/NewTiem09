@@ -45,11 +45,11 @@ public:
 	
 private:
 
-	void MovePattern(mpattern patternnum);
+	void MovePattern(mpattern patternnum); //移動種類
 
-	void Arrival();
+	void Arrival(); //　背後からの出現用
 
-	Vector3 RanPoint(Vector2 min,Vector2 max);
+	void RanPointGenerate(Vector2 min,Vector2 max); //　ランダム位置生成
 	
 private:
 	ObjectManager* objM;
@@ -66,17 +66,18 @@ private:
 	mpattern move_pattern;
 
 	int hp;
-	int time;
+
 	int shotDamageAmount = 0; //ダメージ量
 	int shotCount; 
-	int tackletime = 10; //タックルタイム
-	bool wait = false;
+	int tackletime = 10;		//タックルタイム
 
-	bool ArrivalFlag = false;
-	Vector3 ArrivalPos; //出現場所
-	Vector2 movePoint; //移動先
-	int movetime = 0;
-	int waitTime =0;
+	bool wait = false;			//移動後待ち
+	int ArrivalTime;			//出現時間
+	bool ArrivalFlag = false;	//出現したか
+	Vector3 ArrivalPos;			//出現場所
 
-	//float AppearanceTime; //出現時間
+	Vector3 movePoint;			//移動先
+	int movetime = 0;			//移動時間
+	int waitTime =0;			//待ち時間
+
 };
