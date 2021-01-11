@@ -6,10 +6,11 @@ Enemy::Enemy(int HP,
 	Vector3 ang,
 	ObjectManager * obj,
 	shared_ptr<ModelRenderer> m,
+	shared_ptr<ParticleManager>p,
 	int num,
 	mpattern mpattern,
-	Vector3 appearancePos)
-	:enemyModel(m)
+	Vector3 arrivalPos)
+	:enemyModel(m),enemyParticle(p)
 {
 	position = pos;
 	angle = ang;
@@ -17,7 +18,7 @@ Enemy::Enemy(int HP,
 	number = num;
 	move_pattern = mpattern;
 	hp = HP;
-	AppearancePos = appearancePos;
+	ArrivalPos = arrivalPos;
 }
 
 Enemy::~Enemy()
@@ -37,7 +38,8 @@ void Enemy::Init()
 	//enemyModel->SetAncPoint(numName, Vector3(-2.0f, 0.0f, -2.0f));
 	
 	time = 0;
-		
+	movePoint = Vector2(100, 100);
+
 	SphereSize = 1.0f; //判定サイズ
 }
 
@@ -65,6 +67,11 @@ void Enemy::Hit(BaseObject & other)
 		hitFlag = true;
 		
 		hp = hp - 1;
+
+		if (hp == 0)
+		{
+			death = true;
+		}
 	}
 	else
 	{
@@ -79,47 +86,17 @@ void Enemy::MovePattern(mpattern patternnum)
 	{
 	case mpattern::Fixation:
 
+		shotDamageAmount = 1;
 		speed = 0;
 
 		break;
 
 	case mpattern::Tracking_A:
-		
-		//if (Input::KeyDown(DIK_D)) {
-		//	//　プレイヤーより後ろ
-		//	if (position.z > playerPos.z)
-		//	{
-		//		speed = 0.8f;
-		//		/*if (time < 200) time++;
-		//		position.z = Easing::ease_in_back(time, position.z,
-		//			position.z - (playerPos.z -100), 500);*/
-		//	}
-		//	
-		//}
-		//if (position.z < playerPos.z - 80) //　プレイヤーより前
-		//{
-		//	speed = 0.1f;
-		//}
+	
+		shotDamageAmount = 1;
+		Arrival();
 
-		//if (!AppearanceFlag) {
-		//	if (time < 200) time++;
-		//	position.z = Easing::ease_in_quint(time, position.z,
-		//		(AppearancePos.z) - position.z, 100);
-		//}
-		//if (position.z <= AppearancePos.z)		//　プレイヤーより後ろ
-		//{
-		//	//speed = 0.8f;
-		//
-		//	AppearanceFlag = true;
-		//}
-		//if(AppearanceFlag) //　プレイヤーより前
-		//{
-		//	speed = 0.1f;
-		//}
-
-		Appearance();
-
-		if (AppearanceFlag) //　プレイヤーより前
+		if (ArrivalFlag)
 		{
 			speed = 0.2f;
 		}
@@ -128,35 +105,109 @@ void Enemy::MovePattern(mpattern patternnum)
 
 	case mpattern::Tracking_B:
 
-		Appearance();
+		shotDamageAmount = 2;
+		Arrival();
+
+		if (!ArrivalFlag) return;
+		if(!wait)
+		{
+			if (movetime < 200)movetime++;
+			position.x = Easing::ease_out_sine(
+				movetime,
+				position.x,
+				movePoint.x- position.x,
+				400);
+
+			if (position.x >= 100) {
+				
+				movePoint.x = -100;
+				wait = true;
+
+			}
+			else if(position.x <= -100)
+			{
+				movePoint.x = 100;
+				wait = true;
+
+			}
+
+		}
+
+		if (wait)
+		{
+			waitTime++;
+
+			if (waitTime == 2) {
+				wait = false;
+				waitTime = 0;
+				movetime = 0;
+			}
+		}
 
 		break;
 
 	case mpattern::Tracking_C:
 
+		shotDamageAmount = 2;
+		Arrival();
+
+		if (!ArrivalFlag) return;
+
 
 
 
 		break;
 
-	}
+	case mpattern::Armor:
+		
+		shotDamageAmount = 3;
 
+		if (tackletime == 0)
+		{
+
+		}
+
+		break;
+
+	case mpattern::Recovery:
+
+
+		break;
+
+	}
 	   
 }
 
-void Enemy::Appearance()
+void Enemy::Arrival()
 {
-	if (!AppearanceFlag) {
+	if (!ArrivalFlag) {
 
-		if (time < 200) time++;
+		if (time < 300) time++;
 		position = Easing::ease_in_quint(time, position,
-			(AppearancePos) - position, 100);
+			(ArrivalPos) - position, 100);
 	}
-	if (position.z <= AppearancePos.z)		//　プレイヤーより後ろ
+	if(position.z <= ArrivalPos.z)		//　プレイヤーより後ろ
 	{
-		//speed = 0.8f;
 
-		AppearanceFlag = true;
+		ArrivalFlag = true;
 	}
 	
 }
+
+Vector3 Enemy::RanPoint(Vector2 min, Vector2 max)
+{
+	Vector3 point;
+
+	point =  Vector3(
+		rand()*(max.x - min.x + 1.0),
+		rand()*(max.y - min.y + 1.0),
+		position.z);
+
+	return point;
+}
+
+int RandamValue(int min, int max)
+{
+	return min + (int)(rand()*(max - min + 1.0) / (1.0 + RAND_MAX));
+}
+

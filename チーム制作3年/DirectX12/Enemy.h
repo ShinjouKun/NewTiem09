@@ -14,6 +14,8 @@ enum mpattern {
 	Tracking_A,
 	Tracking_B,
 	Tracking_C,
+	Armor,
+	Recovery,
 
 };
 
@@ -26,9 +28,10 @@ public:
 		Vector3 ang,
 		ObjectManager* obj,
 		shared_ptr<ModelRenderer>m,
+		shared_ptr<ParticleManager>p,
 		int number,
-		mpattern mpattern,		
-		Vector3 appearancePos = Vector3(0, 0, 0));
+		mpattern mpattern,
+		Vector3 arrivalPos = Vector3(0, 0, 0));
 
 	~Enemy();
 	// BaseObject を介して継承されました
@@ -39,15 +42,20 @@ public:
 	virtual void Rend() override;
 
 	virtual void Hit(BaseObject & other) override;
-
+	
+private:
 
 	void MovePattern(mpattern patternnum);
 
-	void Appearance();
+	void Arrival();
+
+	Vector3 RanPoint(Vector2 min,Vector2 max);
 	
 private:
 	ObjectManager* objM;
-	std::shared_ptr<ModelRenderer>enemyModel;
+	shared_ptr<ModelRenderer>enemyModel;
+	shared_ptr<ParticleManager>enemyParticle;
+
 	//複数だす用
 	int number = 0;
 	string name;//キーワード登録
@@ -59,8 +67,16 @@ private:
 
 	int hp;
 	int time;
+	int shotDamageAmount = 0; //ダメージ量
+	int shotCount; 
+	int tackletime = 10; //タックルタイム
+	bool wait = false;
 
-	bool AppearanceFlag = false;
-	Vector3 AppearancePos; //出現場所
+	bool ArrivalFlag = false;
+	Vector3 ArrivalPos; //出現場所
+	Vector2 movePoint; //移動先
+	int movetime = 0;
+	int waitTime =0;
+
 	//float AppearanceTime; //出現時間
 };

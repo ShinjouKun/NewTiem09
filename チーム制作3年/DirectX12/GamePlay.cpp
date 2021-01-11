@@ -16,8 +16,19 @@ void GamePlay::StartScene()
 	objM = new ObjectManager();
 	objM->Claer();
 
-	objM->Add(new Player(Vector3(0, 8.0f, -50.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
-	//objM->Add(new Enemy(Vector3(0.0f, 6.0f, -120.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, 0));
+	objM->Add(new Player(Vector3(0, 8.0f, -50.0f),
+		Vector3(0, 0, 0),
+		objM, BaseScene::mModel,
+		BaseScene::mParticle,
+		BaseScene::mSprite));
+
+	objM->Add(new Enemy(1,
+		Vector3(10.0f, 6.0f, -40.0f),
+		Vector3(0, 0, 0), objM,
+		BaseScene::mModel, 
+		BaseScene::mParticle,0,
+		mpattern::Tracking_B,
+		Vector3(10,6.0f,-200)));
 	//objM->Add(new Enemy(Vector3(16.0f, 6.0f, -150.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, 1));
 	//objM->Add(new Enemy(Vector3(-24.0f, 6.0f, -150.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, 2));
 
