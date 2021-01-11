@@ -328,7 +328,7 @@ void ParticleEmitterBox::EmitterUpdate(const string& key, const Vector3& pos, co
 		acc.y = -(float)rand() / RAND_MAX * rndAcc;
 		
 		//ƒŠƒXƒg‚É’Ç‰Á
-		particle->Add(key,20, pos, pVel, acc, 5.0f, 0.0f, Vector4(1,1,1,1),angle);
+		particle->Add(key,40, pos, pVel, acc, 5.0f, 0.0f, Vector4(1,1,1,1),angle);
 	}
 }
 

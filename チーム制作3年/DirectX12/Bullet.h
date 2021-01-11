@@ -7,7 +7,7 @@
 class Bullet:public BaseObject
 {
 public:
-	Bullet(Vector3 pos, Vector3 angle, ObjectManager* obj, std::shared_ptr<ModelRenderer>m);
+	Bullet(Vector3 pos, Vector3 angle, ObjectManager* obj, std::shared_ptr<ModelRenderer>m,ObjectType t,int num);
 	~Bullet();
 
 private:
@@ -27,4 +27,7 @@ private:
 	virtual void Update() override;
 	virtual void Rend() override;
 	virtual void Hit(BaseObject & other) override;
+	//’N‚Ì’e‚©
+	ObjectType setType;
+	void SetBulletType();
 };

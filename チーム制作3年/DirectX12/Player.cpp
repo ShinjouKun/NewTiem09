@@ -17,7 +17,7 @@ Player::~Player()
 
 void Player::Shot()
 {
-	objM->Add(new Bullet(Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, playerModel));
+	objM->Add(new Bullet(Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, playerModel,objType,bulletStock));
 }
 
 void Player::Init()
@@ -31,9 +31,12 @@ void Player::Init()
 	playerModel->SetAncPoint("Daiza", Vector3(0.0f, -1.0f, 0.0f));
 	playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
 	playerParticleBox->LoadAndSet("Lazier","Resouse/BlueTile.png");
-	playerSprite->AddTexture("Hit", "Resouse/hit.png");
-	playerSprite->AddTexture("AIM", "Resouse/AIM64.png");
-	playerSprite->SetAncPoint("AIM", Vector2(-32.0f, -32.0f));
+	//HP
+	HP = 3;
+	playerSprite->AddTexture("Life1", "Resouse/TaihouLife.png");
+	playerSprite->AddTexture("Life2", "Resouse/TaihouLife.png");
+	playerSprite->AddTexture("Life3", "Resouse/TaihouLife.png");
+
 	death = false;
 	objType = ObjectType::PLAYER;
 	SphereSize = 1.0f;
@@ -44,6 +47,7 @@ void Player::Init()
 	//AIMPos = Vector3(Window::Window_Width/2,Window::Window_Height/2,0.0f);
 	AIMPos = Vector3(position.x,position.y,position.z);
 	speed = 0.1f;	
+	bulletStock = 0;
 }
 
 void Player::Update()
@@ -99,7 +103,7 @@ void Player::Update()
 	if (shotFlag)
 	{
 		shotcnt++;
-		if (shotcnt >= 30)
+		if (shotcnt >= 10)
 		{
 			shotFlag = false;
 		}
@@ -109,11 +113,16 @@ void Player::Update()
 	  if(Input::KeyDown(DIK_SPACE))
 	    {
 		   Shot();
+		   bulletStock++;
 		   shotFlag = true;
 		   shotcnt = 0;
 	    }
 	}
-
+	//‹…”ãŒÀ‚ðÝ‚¯
+	if (bulletStock >= 50)
+	{
+		bulletStock = 0;
+	}
 }
 
 void Player::Rend()
@@ -127,25 +136,34 @@ void Player::Rend()
 	
 	playerParticleBox->EmitterUpdateUpGas("Lazier", Vector3(firePos.x, firePos.y, firePos.z), Vector3(angle.x, -angle.y, 0.0f));
 	DirectXManager::GetInstance()->SetData2D();
-	
-	if (!hitFlag)
+	switch (HP)
 	{
-		DirectXManager::GetInstance()->SetData2D();
-		playerSprite->Draw("Hit", Vector3(0, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
-		//playerSprite->Draw("AIM", Vector3(100, 100, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+	case 3:
+		playerSprite->Draw("Life1", Vector3(0, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("Life2", Vector3(80, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("Life3", Vector3(160, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		break;
+	case 2:
+		playerSprite->Draw("Life1", Vector3(0, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		playerSprite->Draw("Life2", Vector3(80, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		break;
+	case 1:
+		playerSprite->Draw("Life1", Vector3(0, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
+		break;
+	case 0:
+		GameOver = true;
+		break;
+	default:
+		break;
 	}
 	
 }
 
 void Player::Hit(BaseObject & other)
 {
-	if (other.GetType() == ObjectType::ENEMY)
+	if (other.GetType() == ObjectType::ENEMY|| other.GetType() == ObjectType::BOSS)
 	{
 		hitFlag = true;
+		HP--;
 	}
-	else
-	{
-		hitFlag = false;
-	}
-	
 }

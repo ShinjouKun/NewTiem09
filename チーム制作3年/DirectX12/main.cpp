@@ -84,6 +84,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance()->Load("Resouse/hit.png");
 	TexLoader::GetInstance()->Load("Resouse/sougen.jpg");
 	TexLoader::GetInstance()->Load("Resouse/AIM64.png");
+	TexLoader::GetInstance()->Load("Resouse/TaihouLife.png");
 	
 	//Player
 	ModelLoader::GetInstance()->Load("Resouse/daiza.obj");

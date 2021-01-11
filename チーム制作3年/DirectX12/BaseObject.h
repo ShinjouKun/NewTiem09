@@ -8,7 +8,9 @@ enum ObjectType//オブジェクトのタグ
 	PLAYER,
 	ENEMY,
 	BULLET,
-	GROUND
+	GROUND,
+	ENEMYBULLET,
+	BOSS
 };
 
 class BaseObject

@@ -4,6 +4,7 @@
 #include"Input.h"
 #include"Player.h"
 #include"Enemy.h"
+#include"Boss.h"
 #include"ObjectManager.h"
 #include"Camera.h"
 #include"ModelRenderer.h"
@@ -28,6 +29,7 @@ private:
 	ObjectManager* objM;
 	Player* player;//ƒvƒŒƒCƒ„[‚ÌÀ‘Ì¶¬
 	Enemy* enemy;
+	Boss* boss;
 	Camera* camera;
 	float x, y, z;
 };

@@ -37,5 +37,8 @@ private:
 	int shotcnt = 0;
 	bool hitFlag = false;
 	Vector3 AIMPos;
-
+	//ステータス
+	int HP;
+	bool GameOver = false;
+	int bulletStock;//弾をいっぱいだすため
 };
