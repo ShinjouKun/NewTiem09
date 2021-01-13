@@ -3,16 +3,18 @@
 #include"BaseObject.h"
 #include<memory>
 #include"ModelRenderer.h"
-
+#include"ParticleManager.h"
 class Bullet:public BaseObject
 {
 public:
-	Bullet(Vector3 pos, Vector3 angle, ObjectManager* obj, std::shared_ptr<ModelRenderer>m,ObjectType t,int num);
+	Bullet(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p,ObjectType t,int num);
 	~Bullet();
 
 private:
 	ObjectManager* objM;
 	std::shared_ptr<ModelRenderer>BulletModel;
+	shared_ptr<ParticleManager>BulletParticle;
+	shared_ptr<ParticleEmitterBox>BulletParticleBox;
 	Vector3 TargetPos;
 	int alive;
 	float speed;

@@ -17,7 +17,7 @@ Player::~Player()
 
 void Player::Shot()
 {
-	objM->Add(new Bullet(Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, playerModel,objType,bulletStock));
+	objM->Add(new Bullet(Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, playerModel,playerParticle,objType,bulletStock));
 }
 
 void Player::Init()

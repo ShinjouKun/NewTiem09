@@ -12,6 +12,7 @@ public:
 	~Boss();
 
 	void Shot();
+	void Move();
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
 	virtual void Init() override;
 
@@ -34,4 +35,7 @@ private:
 	bool HitFlag;//–³“GŠÔ‚Ì‚½‚ß
 	int HitCount;
 	int bulletStock;//’e‚ğ‚¢‚Á‚Ï‚¢‚¾‚·‚½‚ß
+
+
+	int Count;
 };

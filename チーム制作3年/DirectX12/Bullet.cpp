@@ -1,7 +1,7 @@
 #include "Bullet.h"
 #include"Matrix4.h"
-Bullet::Bullet(Vector3 pos, Vector3 ang, ObjectManager * obj, std::shared_ptr<ModelRenderer> m,ObjectType t,int num)
-	:BulletModel(m)
+Bullet::Bullet(Vector3 pos, Vector3 ang, ObjectManager * obj, std::shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p,ObjectType t,int num)
+	:BulletModel(m),BulletParticle(p)
 {
 	position = pos;
 	objM = obj;
@@ -22,6 +22,8 @@ void Bullet::Init()
 	num = to_string(number);
 	numName = name + num;
 	BulletModel->AddModel(numName,"Resouse/Bullet.obj","Resouse/Bullet.png");
+	BulletParticleBox = make_shared<ParticleEmitterBox>(BulletParticle);
+	BulletParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");
 	alive = 0;
 	death = false;
 	
@@ -54,10 +56,12 @@ void Bullet::Hit(BaseObject & other)
 {
 	if (objType == BULLET&& (other.GetType() == ObjectType::ENEMY|| other.GetType() == ObjectType::BOSS || other.GetType() == ObjectType::ENEMYBULLET))
 	{
+		BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
 		death = true;
 	}
 	if (objType == ENEMYBULLET && (other.GetType() == ObjectType::PLAYER || other.GetType() == ObjectType::BULLET))
 	{
+		BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
 		death = true;
 	}
 

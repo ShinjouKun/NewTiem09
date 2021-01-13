@@ -328,7 +328,7 @@ void ParticleEmitterBox::EmitterUpdate(const string& key, const Vector3& pos, co
 		acc.y = -(float)rand() / RAND_MAX * rndAcc;
 		
 		//リストに追加
-		particle->Add(key,40, pos, pVel, acc, 5.0f, 0.0f, Vector4(1,1,1,1),angle);
+		particle->Add(key,30, pos, pVel, acc, 5.0f, 0.0f, Vector4(1,1,1,1),angle);
 	}
 }
 
@@ -355,7 +355,7 @@ void ParticleEmitterBox::EmitterUpdateUpGas(const string & key, const Vector3 & 
 		pCol.y = (float)rand() / RAND_MAX * rndVel - rndVel / 2.0f;
 		pCol.z = (float)rand() / RAND_MAX * rndVel - rndVel / 2.0f;*/
 		//リストに追加
-		particle->Add(key,50, pos, pVel, acc, 0.3f, 0.3f, Vector4(1,1,1,1),angle);
+		particle->Add(key,80, pos, pVel, acc, 0.3f, 0.3f, Vector4(1,1,1,1),angle);
 	}
 }
 

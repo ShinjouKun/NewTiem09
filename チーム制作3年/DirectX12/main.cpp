@@ -92,6 +92,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance()->Load("Resouse/taihou.obj");
 	//Enemy
 	ModelLoader::GetInstance()->Load("Resouse/enemy2.obj");
+	//BOSS
+	ModelLoader::GetInstance()->Load("Resouse/boss1.obj");
+	ModelLoader::GetInstance()->Load("Resouse/boss1_core1.obj");
 	//Bullet
 	ModelLoader::GetInstance()->Load("Resouse/Bullet.obj");
 
