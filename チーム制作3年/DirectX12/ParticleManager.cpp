@@ -13,7 +13,7 @@ ParticleManager::~ParticleManager()
 
 void ParticleManager::Init()
 {
-	texNum = 400;
+	texNum = 300;
 	matProjectionP = Matrix4::Identity;
 	matProjectionP.m[3][0] = -1.0f;
 	matProjectionP.m[3][1] = 1.0f;

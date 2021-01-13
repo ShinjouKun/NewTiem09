@@ -1,5 +1,6 @@
 #include "Player.h"
 #include"Bullet.h"
+#include"Bom.h"
 #include "Input.h"
 #include<sstream>
 
@@ -20,6 +21,11 @@ void Player::Shot()
 	objM->Add(new Bullet(Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, playerModel,playerParticle,objType,bulletStock));
 }
 
+void Player::BomShot()
+{
+	objM->Add(new Bom(Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, playerModel, playerParticle,bulletStock));
+}
+
 void Player::Init()
 {
 	//model
@@ -29,8 +35,8 @@ void Player::Init()
 	playerModel->SetAncPoint("Yoko", Vector3(0.0f, -1.0f, 0.0f));
 	playerModel->AddModel("Daiza", "Resouse/daiza.obj", "Resouse/daiza.png");
 	playerModel->SetAncPoint("Daiza", Vector3(0.0f, -1.0f, 0.0f));
-	playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
-	playerParticleBox->LoadAndSet("Lazier","Resouse/RedTile.png");
+	/*playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
+	playerParticleBox->LoadAndSet("Lazier","Resouse/RedTile.png");*/
 	//HP
 	HP = 3;
 	playerSprite->AddTexture("Life1", "Resouse/TaihouLife.png");
@@ -110,9 +116,10 @@ void Player::Update()
 	}
 	else
 	{
-	  if(Input::KeyDown(DIK_SPACE))
+	  if(Input::KeyState(DIK_SPACE))
 	    {
-		   Shot();
+		  Shot();
+		 //BomShot();
 		   bulletStock++;
 		   shotFlag = true;
 		   shotcnt = 0;
@@ -134,7 +141,7 @@ void Player::Rend()
 	playerModel->Draw("Daiza", Vector3(position.x-0.3f, position.y, position.z), Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
 	
 	
-	playerParticleBox->EmitterUpdateUpGas("Lazier", Vector3(firePos.x, firePos.y, firePos.z), Vector3(angle.x, -angle.y, 0.0f));
+	//playerParticleBox->EmitterUpdateUpGas("Lazier", Vector3(firePos.x, firePos.y, firePos.z), Vector3(angle.x, -angle.y, 0.0f));
 	DirectXManager::GetInstance()->SetData2D();
 	switch (HP)
 	{

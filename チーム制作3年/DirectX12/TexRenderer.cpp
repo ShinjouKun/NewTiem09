@@ -16,7 +16,7 @@ TexRenderer::~TexRenderer()
 
 void TexRenderer::Init()
 {
-	data.texNum = 300;//FixMe
+	data.texNum = 200;//FixMe
 	matProjection.m[3][0] = -1.0f;
 	matProjection.m[3][1] = 1.0f;
 	matProjection.m[0][0] = 2.0f / Window::Window_Width;

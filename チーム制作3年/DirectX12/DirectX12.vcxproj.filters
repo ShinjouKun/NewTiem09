@@ -135,6 +135,12 @@
     <ClCompile Include="Boss.cpp">
       <Filter>Acter</Filter>
     </ClCompile>
+    <ClCompile Include="Misaile.cpp">
+      <Filter>Acter</Filter>
+    </ClCompile>
+    <ClCompile Include="Bom.cpp">
+      <Filter>Acter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="SpritePixelShader.hlsl">
@@ -271,6 +277,12 @@
       <Filter>Acter</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
+    <ClInclude Include="Misaile.h">
+      <Filter>Acter</Filter>
+    </ClInclude>
+    <ClInclude Include="Bom.h">
       <Filter>Acter</Filter>
     </ClInclude>
   </ItemGroup>

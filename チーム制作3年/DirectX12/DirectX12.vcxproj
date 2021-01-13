@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BaseScene.cpp" />
+    <ClCompile Include="Bom.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="MatLoader.cpp" />
     <ClCompile Include="Matrix4.cpp" />
+    <ClCompile Include="Misaile.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="ModelRenderer.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
@@ -311,6 +313,7 @@
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BaseScene.h" />
+    <ClInclude Include="Bom.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
@@ -324,6 +327,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="MatLoader.h" />
     <ClInclude Include="Matrix4.h" />
+    <ClInclude Include="Misaile.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="ModelRenderer.h" />
     <ClInclude Include="ObjectManager.h" />
