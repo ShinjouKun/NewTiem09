@@ -38,6 +38,7 @@ struct DrawData
 	D3D12_INDEX_BUFFER_VIEW ibView{};
 	ComPtr<ID3D12Resource>vertBuff;
 	ComPtr<ID3D12Resource>indexBuff;
+	Vector4 color;
 };
 class ModelRenderer
 {
@@ -64,5 +65,7 @@ public:
 
 	//アンカーポイント変更
 	void SetAncPoint(const string& key,const Vector3& point);
+	//カラー変更
+	void SetColor(const string& key, const Vector4& color);
 	
 };

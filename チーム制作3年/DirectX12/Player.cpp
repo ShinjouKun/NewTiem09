@@ -30,7 +30,7 @@ void Player::Init()
 	playerModel->AddModel("Daiza", "Resouse/daiza.obj", "Resouse/daiza.png");
 	playerModel->SetAncPoint("Daiza", Vector3(0.0f, -1.0f, 0.0f));
 	playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
-	playerParticleBox->LoadAndSet("Lazier","Resouse/BlueTile.png");
+	playerParticleBox->LoadAndSet("Lazier","Resouse/RedTile.png");
 	//HP
 	HP = 3;
 	playerSprite->AddTexture("Life1", "Resouse/TaihouLife.png");
@@ -161,7 +161,7 @@ void Player::Rend()
 
 void Player::Hit(BaseObject & other)
 {
-	if (other.GetType() == ObjectType::ENEMY|| other.GetType() == ObjectType::BOSS)
+	if (other.GetType() == ObjectType::ENEMY|| other.GetType() == ObjectType::ENEMYBULLET)
 	{
 		hitFlag = true;
 		HP--;

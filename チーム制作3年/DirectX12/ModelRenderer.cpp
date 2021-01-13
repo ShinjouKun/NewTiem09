@@ -147,8 +147,9 @@ void ModelRenderer::Draw(const string& key,const Vector3& pos, const Vector3& an
 {
 		HRESULT result;
 		ConstMap* constMap = nullptr;
-
+		
 		auto d = drawDatas[key];
+		
 		d.texNum = d.texNum;//テクスチャの番号を適用
 		d.matWorld = Matrix4::Identity;
 		d.matWorld = Matrix4::createTranslation(d.ancPoint3D);
@@ -160,6 +161,7 @@ void ModelRenderer::Draw(const string& key,const Vector3& pos, const Vector3& an
 		
 		//行列の転送
 		result = d.constBuff->Map(0, nullptr, (void**)&constMap);
+		constMap->color = d.color;//色
 		constMap->mat = d.matWorld*Camera::matView *matProjection;
 		d.constBuff->Unmap(0, nullptr);
 
@@ -189,5 +191,13 @@ void ModelRenderer::SetAncPoint(const string& key,const Vector3 & point)
 	auto d = drawDatas[key];
 	drawDatas.erase(key);
 	d.ancPoint3D = point;
+	drawDatas.emplace(key, d);
+}
+
+void ModelRenderer::SetColor(const string & key, const Vector4 & c)
+{
+	auto d = drawDatas[key];
+	drawDatas.erase(key);
+	d.color = c;
 	drawDatas.emplace(key, d);
 }
