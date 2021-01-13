@@ -194,7 +194,7 @@ double Easing::ease_out_back(double t, double s, double c, double d)
 
 double Easing::ease_out_elastic(double t, double s, double c, double d)
 {
-	double c4 = (2 * PI) / 3;
+	const double c4 = (2 * PI) / 3;
 	double x = t / d;
 	double v = 0;
 	   
@@ -208,7 +208,7 @@ double Easing::ease_out_elastic(double t, double s, double c, double d)
 	}
 	else {
 
-		v = pow(2, -10 * x) * sin((x * 10 - 0.75)*c4);
+		v = pow(2, -10 * x) * sin((x * 10 - 0.75)*c4) +1;
 	}
 	double ret = c * v + s;
 
@@ -217,8 +217,8 @@ double Easing::ease_out_elastic(double t, double s, double c, double d)
 
 double Easing::ease_out_bounce(double t, double s, double c, double d)
 {
-	double n1 = 7.5625;
-	double d1 = 2.75;
+	const double n1 = 7.5625;
+	const double d1 = 2.75;
 	double x = t / d;
 	double v = 0;
 

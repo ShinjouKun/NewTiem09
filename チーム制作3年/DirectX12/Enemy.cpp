@@ -45,9 +45,9 @@ void Enemy::Init()
 	//enemyModel->SetAncPoint(numName, Vector3(-2.0f, 0.0f, -2.0f));
 	
 	ArrivalTime = 0;
-	//movePoint = Vector3(10, 10,position.z);
+	movePoint = Vector3(100, 50, position.z);
 
-	movePoint = Vector3(
+	ranMovePoint = Vector3(
 		RandamValue(-100, 100),
 		RandamValue(0, 10),
 		ArrivalPos.z);
@@ -60,8 +60,7 @@ void Enemy::Update()
 	position.z -= 1 * speed;
 
 	MovePattern(move_pattern);
-
-
+	
 }
 
 void Enemy::Rend()
@@ -109,29 +108,29 @@ void Enemy::MovePattern(mpattern patternnum)
 		shotDamageAmount = 1;
 		Arrival();
 
-		if (ArrivalFlag)
-		{
-			speed = 0.2f;
-		}
+		if (!ArrivalFlag) return;
+		speed = 0.2f;
+
 
 		break;
 
-	case mpattern::Tracking_B:
+	case mpattern::Tracking_B_LR:
 
 		shotDamageAmount = 2;
 		Arrival();
 
 		if (!ArrivalFlag) return;
+		speed = 0.2f;
 
 		//　左右移動
 		if(!wait)
 		{
 			if (movetime < 200)movetime++;
-			position.x = Easing::ease_out_sine(
+			position.x = Easing::ease_out_circ(
 				movetime,
 				position.x,
 				movePoint.x- position.x,
-				400);
+				600);
 
 			if (position.x >= 100) {
 				
@@ -145,32 +144,7 @@ void Enemy::MovePattern(mpattern patternnum)
 				wait = true;
 
 			}
-
 		}
-
-		//　上下移動
-		/*if (!wait)
-		{
-			if (movetime < 200)movetime++;
-			position.y = Easing::ease_out_sine(
-				movetime,
-				position.y,
-				movePoint.y - position.y,
-				400);
-
-			if (position.y >= 100) {
-
-				movePoint.y = -100;
-				wait = true;
-
-			}
-			else if (position.y <= -100)
-			{
-				movePoint.y = 100;
-				wait = true;
-
-			}
-		}*/
 
 		if (wait)
 		{
@@ -185,7 +159,51 @@ void Enemy::MovePattern(mpattern patternnum)
 
 		break;
 
+	case mpattern::Tracking_B_UB:
 
+		shotDamageAmount = 2;
+		Arrival();
+
+		if (!ArrivalFlag) return;
+		speed = 0.2f;
+
+		//　上下移動
+		if (!wait)
+		{
+			if (movetime < 200)
+				movetime++;
+
+			position.y = Easing::ease_out_sine(
+				movetime,
+				position.y,
+				movePoint.y - position.y,
+				400);
+
+			if (position.y >= 50) {
+
+				movePoint.y = 10;
+				wait = true;
+
+			}
+			else if (position.y <= 10)
+			{
+				movePoint.y = 50;
+				wait = true;
+
+			}
+		}	
+
+		if (wait)
+		{
+			waitTime++;
+
+			if (waitTime == 2) {
+				wait = false;
+				waitTime = 0;
+				movetime = 0;
+			}
+		}
+		break;
 
 	case mpattern::Tracking_C:
 
@@ -193,23 +211,25 @@ void Enemy::MovePattern(mpattern patternnum)
 		Arrival();
 
 		if (!ArrivalFlag) return;
+		speed = 0.2f; 
+		ranMovePoint.z -= 1 * speed;
 
 		if (!wait)
 		{
 			if (movetime < 200)movetime++;
 
-			position = Easing::ease_out_sine(
+			position = Easing::ease_out_expo(
 				movetime,
 				position,
-				movePoint- position,
+				ranMovePoint - position,
 				400);
 
-			if ((int)position.x == (int)movePoint.x &
-				(int)position.y == (int)movePoint.y)
+			if ((int)position.x == (int)ranMovePoint.x &
+				(int)position.y == (int)ranMovePoint.y)
 			{
 				wait = true;
 
-				movePoint = Vector3(
+				ranMovePoint = Vector3(
 					RandamValue(-100, 100),
 					RandamValue(0, 30),
 					position.z);
@@ -220,7 +240,7 @@ void Enemy::MovePattern(mpattern patternnum)
 		{
 			waitTime++;
 
-			if (waitTime == 2) {
+			if (waitTime == 20) {
 
 				wait = false;
 				waitTime = 0;

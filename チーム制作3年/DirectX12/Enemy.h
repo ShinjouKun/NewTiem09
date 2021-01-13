@@ -12,7 +12,8 @@ enum mpattern {
 
 	Fixation,
 	Tracking_A,
-	Tracking_B,
+	Tracking_B_LR,
+	Tracking_B_UB,
 	Tracking_C,
 	Armor,
 	Recovery,
@@ -77,6 +78,7 @@ private:
 	Vector3 ArrivalPos;			//oŒ»êŠ
 
 	Vector3 movePoint;			//ˆÚ“®æ
+	Vector3 ranMovePoint;			//ˆÚ“®æ
 	int movetime = 0;			//ˆÚ“®ŠÔ
 	int waitTime =0;			//‘Ò‚¿ŠÔ
 
