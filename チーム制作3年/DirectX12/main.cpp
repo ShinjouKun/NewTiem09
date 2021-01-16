@@ -113,7 +113,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//サウンド
 	Sound* sound = new Sound();
 	sound->LoadSE("Resouse/endingse.wav");
-	//sound->Play("Resouse/endingse.wav");
+	sound->Play("Resouse/endingse.wav");
 	
 	Input* input = new Input();//インプットインスタンス生成
 	input->Init(window->GetHWND());//インプット初期化

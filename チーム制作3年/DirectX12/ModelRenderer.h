@@ -46,7 +46,6 @@ private:
 	map<string,OBJData*> datas;//保存用
 	DrawData drawData;
 	map<string,DrawData>drawDatas;
-	//std::map<std::string, std::vector<UINT>>mIndices;
 	PipeLine* pipeLine = nullptr;//パイプラインクラスの実体FixMe
 	string modelName;
 	Matrix4 matProjection;//射影変換行列
@@ -60,7 +59,7 @@ public:
 
 	void AddModel(const string& key,const string& filename,const string& texName);//使うモデルの追加
 	void CreateTexture(string filename);//モデル用のテクスチャデータ作成
-	void SetMaterial(OBJData* matData);//マテリアルのセット
+	void SetMaterial(OBJMatM* matData,ConstMap* map);//マテリアルのセット
 	void Draw(const string& key,const Vector3& pos,const Vector3& angle, const Vector3& scale);
 
 	//アンカーポイント変更

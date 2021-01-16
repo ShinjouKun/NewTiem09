@@ -59,12 +59,11 @@ void ModelRenderer::CreateTexture(string texName)
 	//drawData.texNum++;
 }
 
-void ModelRenderer::SetMaterial(OBJData * matData)
+void ModelRenderer::SetMaterial(OBJMatM * matData, ConstMap* map)
 {
-	ConstMap* constMap = nullptr;
-	constMap->MatAmbinent = XMFLOAT4(matData->mat.Ambient[0], matData->mat.Ambient[1], matData->mat.Ambient[2],1);
-	constMap->MatAmbinent = XMFLOAT4(matData->mat.Diffuse[0], matData->mat.Diffuse[1], matData->mat.Diffuse[2], 1);
-	constMap->MatAmbinent = XMFLOAT4(matData->mat.Specular[0], matData->mat.Specular[1], matData->mat.Specular[2], 1);
+	map->MatAmbinent = XMFLOAT4(matData->Ambient[0], matData->Ambient[1], matData->Ambient[2],1);
+	map->MatDiffuse = XMFLOAT4(matData->Diffuse[0], matData->Diffuse[1], matData->Diffuse[2], 1);
+	map->MatSpecular = XMFLOAT4(matData->Specular[0], matData->Specular[1], matData->Specular[2], 1);
 }
 
 void ModelRenderer::SetBuffer(OBJData* data)
@@ -162,13 +161,10 @@ void ModelRenderer::Draw(const string& key,const Vector3& pos, const Vector3& an
 		//行列の転送
 		result = d.constBuff->Map(0, nullptr, (void**)&constMap);
 		constMap->color = d.color;//色
+	//マテリアルの適用
+		SetMaterial(&datas[key]->mat,constMap);	
 		constMap->mat = d.matWorld*Camera::matView *matProjection;
 		d.constBuff->Unmap(0, nullptr);
-
-		/*for (auto index : datas[key]->matNameList)
-		{
-			SetMaterial(datas[index]);
-		}*/
 		//頂点バッファセット
 		DirectXManager::GetInstance()->CmdList()->IASetVertexBuffers(0, 1, &d.vbView);
 		DirectXManager::GetInstance()->CmdList()->IASetIndexBuffer(&d.ibView);
