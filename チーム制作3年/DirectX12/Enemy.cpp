@@ -53,6 +53,7 @@ void Enemy::Init()
 		ArrivalPos.z);
 
 	SphereSize = 1.0f; //判定サイズ
+
 }
 
 void Enemy::Update()
@@ -92,19 +93,25 @@ void Enemy::Hit(BaseObject & other)
 
 }
 
+
 void Enemy::MovePattern(mpattern patternnum)
 {
 	switch (patternnum)
 	{
 	case mpattern::Fixation:
 
+#pragma region 固定
 		shotDamageAmount = 1;
 		speed = 0;
 
 		break;
 
+#pragma endregion
+
+
 	case mpattern::Tracking_A:
 	
+#pragma region 追加１
 		shotDamageAmount = 1;
 		Arrival();
 
@@ -114,19 +121,23 @@ void Enemy::MovePattern(mpattern patternnum)
 
 		break;
 
-	case mpattern::Tracking_B_LR:
+#pragma endregion
 
+
+	case mpattern::Tracking_B_LR:
+		
+#pragma region 追加２左右
 		shotDamageAmount = 2;
 		Arrival();
 
 		if (!ArrivalFlag) return;
-		//speed = 0.2f;
+		speed = 0.2f;
 
 		//　左右移動
-		if(!wait)
+		if (!wait)
 		{
 
-			if (movetime < 200) movetime ++;
+			if (movetime < 200) movetime++;
 
 			position.x = Easing::ease_in_back(
 				movetime,
@@ -135,12 +146,12 @@ void Enemy::MovePattern(mpattern patternnum)
 				400);
 
 			if (position.x >= 98) {
-				
+
 				movePoint.x = 100;
 				wait = true;
 
 			}
-			else if(position.x <= -98)
+			else if (position.x <= -98)
 			{
 				movePoint.x = -100;
 				wait = true;
@@ -161,8 +172,12 @@ void Enemy::MovePattern(mpattern patternnum)
 
 		break;
 
+#pragma endregion
+
+	
 	case mpattern::Tracking_B_UB:
 
+#pragma region 追加２上下
 		shotDamageAmount = 2;
 		Arrival();
 
@@ -193,7 +208,7 @@ void Enemy::MovePattern(mpattern patternnum)
 				wait = true;
 
 			}
-		}	
+		}
 
 		if (wait)
 		{
@@ -207,13 +222,18 @@ void Enemy::MovePattern(mpattern patternnum)
 		}
 		break;
 
+#pragma endregion
+
+
 	case mpattern::Tracking_C:
+
+#pragma region 追尾３
 
 		shotDamageAmount = 2;
 		Arrival();
 
 		if (!ArrivalFlag) return;
-		speed = 0.2f; 
+		speed = 0.2f;
 		ranMovePoint.z -= 1 * speed;
 
 		if (!wait)
@@ -252,31 +272,45 @@ void Enemy::MovePattern(mpattern patternnum)
 
 		break;
 
+#pragma endregion
+
 	case mpattern::Armor:
 		
+#pragma region アーマー
+
 		shotDamageAmount = 3;
 
-		//Vector3 dist = 
+		dist = pos_P - position;
 
-		//if(position.z)
 
-		if (movePermit) {
+		//一定距離に達成したら
+		/*if (dist.z <= StartMovingDist) {
+			movePermet = true;
+		}*/
+
+		if (dist.z <= StartMovingDist &&
+			tackletime != finishTime) {
 			speed = 0.2;
 			tackletime--;
 		}
 
-		if (tackletime == 0)
+		if (tackletime == finishTime)
 		{
+			speed = 0;
 			if (movetime < 200)movetime++;
 
-			position   = Easing::ease_in_back(
+			position = Easing::ease_in_back(
 				movetime,
 				position,
-				position,
-				300);
+				position - pos_P,
+				200);
+
+
 		}
 
 		break;
+
+#pragma endregion
 
 	case mpattern::Recovery:
 

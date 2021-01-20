@@ -44,6 +44,8 @@ public:
 
 	virtual void Hit(BaseObject & other) override;
 	
+	void GetPlayerPos(Vector3 player) { pos_P = player; };
+
 private:
 
 	void MovePattern(mpattern patternnum); //移動種類
@@ -72,17 +74,23 @@ private:
 
 	int shotDamageAmount = 0; //ダメージ量
 	int shotCount; 
-	int tackletime = 600;		//タックルタイム
+	int tackletime = 300;		//タックルタイム
 
 	bool wait = false;			//移動後待ち
 	int ArrivalTime;			//出現時間
 	bool ArrivalFlag = false;	//出現したか
 	Vector3 ArrivalPos;			//出現場所
 
+	//bool movePermet = false;
+
 	Vector3 movePoint;			//移動先
 	Vector3 ranMovePoint;		//移動先
-	bool movePermit = false;			//移動許可
 	int movetime = 0;			//移動時間
 	int waitTime = 0;			//待ち時間
 
+	Vector3 dist;
+	Vector3 pos_P;
+
+	const int StartMovingDist = 60; //移動開始距離：アーマータイプ用
+	const int finishTime = 0;
 };
