@@ -52,6 +52,8 @@ private:
 
 	void RanPointGenerate(Vector2 min,Vector2 max); //　ランダム位置生成
 	
+	bool Wait(float waittime);
+
 private:
 	ObjectManager* objM;
 	shared_ptr<ModelRenderer>enemyModel;
@@ -70,7 +72,7 @@ private:
 
 	int shotDamageAmount = 0; //ダメージ量
 	int shotCount; 
-	int tackletime = 10;		//タックルタイム
+	int tackletime = 600;		//タックルタイム
 
 	bool wait = false;			//移動後待ち
 	int ArrivalTime;			//出現時間
@@ -78,8 +80,9 @@ private:
 	Vector3 ArrivalPos;			//出現場所
 
 	Vector3 movePoint;			//移動先
-	Vector3 ranMovePoint;			//移動先
+	Vector3 ranMovePoint;		//移動先
+	bool movePermit = false;			//移動許可
 	int movetime = 0;			//移動時間
-	int waitTime =0;			//待ち時間
+	int waitTime = 0;			//待ち時間
 
 };

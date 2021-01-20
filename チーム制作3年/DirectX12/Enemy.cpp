@@ -46,7 +46,7 @@ void Enemy::Init()
 	
 	ArrivalTime = 0;
 	movePoint = Vector3(100, 50, position.z);
-
+	
 	ranMovePoint = Vector3(
 		RandamValue(-100, 100),
 		RandamValue(0, 10),
@@ -120,27 +120,29 @@ void Enemy::MovePattern(mpattern patternnum)
 		Arrival();
 
 		if (!ArrivalFlag) return;
-		speed = 0.2f;
+		//speed = 0.2f;
 
 		//Å@ç∂âEà⁄ìÆ
 		if(!wait)
 		{
-			if (movetime < 200)movetime++;
-			position.x = Easing::ease_out_circ(
+
+			if (movetime < 200) movetime ++;
+
+			position.x = Easing::ease_in_back(
 				movetime,
 				position.x,
-				movePoint.x- position.x,
-				600);
+				movePoint.x + position.x,
+				400);
 
-			if (position.x >= 100) {
+			if (position.x >= 98) {
 				
-				movePoint.x = -100;
+				movePoint.x = 100;
 				wait = true;
 
 			}
-			else if(position.x <= -100)
+			else if(position.x <= -98)
 			{
-				movePoint.x = 100;
+				movePoint.x = -100;
 				wait = true;
 
 			}
@@ -218,7 +220,7 @@ void Enemy::MovePattern(mpattern patternnum)
 		{
 			if (movetime < 200)movetime++;
 
-			position = Easing::ease_out_expo(
+			position = Easing::ease_in_back(
 				movetime,
 				position,
 				ranMovePoint - position,
@@ -254,9 +256,24 @@ void Enemy::MovePattern(mpattern patternnum)
 		
 		shotDamageAmount = 3;
 
+		//Vector3 dist = 
+
+		//if(position.z)
+
+		if (movePermit) {
+			speed = 0.2;
+			tackletime--;
+		}
+
 		if (tackletime == 0)
 		{
+			if (movetime < 200)movetime++;
 
+			position   = Easing::ease_in_back(
+				movetime,
+				position,
+				position,
+				300);
 		}
 
 		break;
@@ -298,4 +315,3 @@ void Enemy::RanPointGenerate(Vector2 min, Vector2 max)
 		ArrivalPos.z);
 
 }
-
