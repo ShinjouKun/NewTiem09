@@ -13,8 +13,9 @@ public:
 
 	void Shot();
 	void Shot2();
+	void Shot3();
 	void Move();//‰Šúmove
-	void Move2();//50“
+	void Move2();//60“
 	void Move3();//20ˆÈ‰º
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
 	virtual void Init() override;
@@ -41,4 +42,5 @@ private:
 
 
 	int Count;
+	int FripCount;//‰ñ“]‚ÌØ‚è‘Ö‚¦
 };

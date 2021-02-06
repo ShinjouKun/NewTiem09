@@ -22,9 +22,18 @@ void Boss::Shot()
 
 void Boss::Shot2()
 {
-	objM->Add(new Misaile(Vector3(position.x+10.0f, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock));
+	objM->Add(new Misaile(Vector3(position.x+15.0f, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock));
 	objM->Add(new Misaile(Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock+1));
-	objM->Add(new Misaile(Vector3(position.x-10.0f, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock+2));
+	objM->Add(new Misaile(Vector3(position.x-15.0f, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock+2));
+	ShotCount = 0;
+	ShotFlag = false;
+}
+
+void Boss::Shot3()
+{
+	objM->Add(new Misaile(Vector3(position.x, position.y+3.0f, position.z), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock));
+	objM->Add(new Misaile(Vector3(position.x+6.0f, position.y, position.z+1.5f), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock+1));
+	objM->Add(new Misaile(Vector3(position.x - 6.0f, position.y-2.0f, position.z - 1.5f), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock + 2));
 	ShotCount = 0;
 	ShotFlag = false;
 }
@@ -48,7 +57,7 @@ void Boss::Move()
 	if (!ShotFlag)
 	{
 		ShotCount++;
-		if (ShotCount >= 120)
+		if (ShotCount >= 100)
 		{
 			ShotFlag = true;
 			Shot();
@@ -73,7 +82,7 @@ void Boss::Move2()
 	if (!ShotFlag)
 	{
 		ShotCount++;
-		if (ShotCount >= 100)
+		if (ShotCount >= 120)
 		{
 			ShotFlag = true;
 			Shot2();
@@ -83,14 +92,45 @@ void Boss::Move2()
 
 void Boss::Move3()
 {
+	
+	FripCount++;
+	if (FripCount <= 100)
+	{
+		velocity = Vector3(0, 1, 0);
+		angle.z -= 4.0f;
+	}
+	else
+	{
+		velocity = Vector3(0, -1, 0);
+		angle.z += 4.0f;
+		if (FripCount >= 200)
+		{
+			FripCount = 0;
+		}
+	}
+	velocity *= Matrix4::RotateZ(angle.z);
+	position += velocity * speed;
+
+	//UŒ‚
+	if (!ShotFlag)
+	{
+		ShotCount++;
+		if (ShotCount >= 80)
+		{
+			ShotFlag = true;
+			Shot3();
+		}
+	}
 }
 
 void Boss::Init()
 {
 	Count = 0;
+	FripCount = 0;
 	HP = 100;
 	death = false;
-	position = Vector3(40.0f, 10.0f, -180.0f);
+	speed = 0.7f;
+	position = Vector3(40.0f, 14.0f, -180.0f);
 	SphereSize = 15.0f;
 	ShotFlag = false;
 	HitFlag = false;
@@ -106,13 +146,17 @@ void Boss::Init()
 
 void Boss::Update()
 {
-	if (HP >= 50)
+	if (HP >= 60)
 	{
 		Move();
 	}
-	else
+	else if(HP >= 30)
 	{
 		Move2();
+	}
+	else
+	{
+		Move3();
 	}
 	//“–‚½‚è
 	if (HitFlag)
@@ -139,7 +183,7 @@ void Boss::Update()
 void Boss::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();
-	bossModel->Draw("BOSS", position, angle, Vector3(10, 10, 10));
+	bossModel->Draw("BOSS", position, Vector3(angle.x,angle.y,0), Vector3(10, 10, 10));
 }
 
 void Boss::Hit(BaseObject & other)
