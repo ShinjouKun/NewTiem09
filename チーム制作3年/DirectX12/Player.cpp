@@ -1,6 +1,7 @@
 #include "Player.h"
 #include"Bullet.h"
 #include"Bom.h"
+#include"Misaile.h"
 #include "Input.h"
 #include<sstream>
 
@@ -26,6 +27,11 @@ void Player::BomShot()
 	objM->Add(new Bom(Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, playerModel, playerParticle,bulletStock));
 }
 
+void Player::MisaileShot()
+{
+	objM->Add(new Misaile(Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, playerModel, playerParticle, objType, bulletStock));
+}
+
 void Player::Init()
 {
 	//model
@@ -35,8 +41,8 @@ void Player::Init()
 	playerModel->SetAncPoint("Yoko", Vector3(0.0f, -1.0f, 0.0f));
 	playerModel->AddModel("Daiza", "Resouse/daiza.obj", "Resouse/daiza.png");
 	playerModel->SetAncPoint("Daiza", Vector3(0.0f, -1.0f, 0.0f));
-	/*playerParticleBox = make_shared<ParticleEmitterBox>(playerParticle);
-	playerParticleBox->LoadAndSet("Lazier","Resouse/RedTile.png");*/
+	playerModel->AddModel("Lazer", "Resouse/L2.obj", "Resouse/L.png");
+	playerModel->SetAncPoint("Lazer", Vector3(-1.9f, -1.5f, +1.0f));
 	//HP
 	HP = 3;
 	playerSprite->AddTexture("Life1", "Resouse/TaihouLife.png");
@@ -58,6 +64,11 @@ void Player::Init()
 
 void Player::Update()
 {
+	//死亡処理
+	if (HP == 0)
+	{
+		death = true;
+	}
 	camera->SetEye(Vector3(position.x, position.y + 6.0f, position.z + 10.0f));
 	camera->SetTarget(Vector3(position.x, position.y+6.0f, position.z));
 
@@ -118,30 +129,35 @@ void Player::Update()
 	{
 	  if(Input::KeyState(DIK_SPACE))
 	    {
-		  Shot();
-		 //BomShot();
+		   Shot();
 		   bulletStock++;
 		   shotFlag = true;
 		   shotcnt = 0;
 	    }
+	  if (Input::KeyState(DIK_C))
+	  {
+		  MisaileShot();
+		  bulletStock++;
+		  shotFlag = true;
+		  shotcnt = 0;
+	  }
 	}
 	//球数上限を設け
 	if (bulletStock >= 50)
 	{
-		bulletStock = 0;
+       bulletStock = 0;
 	}
 }
 
 void Player::Rend()
 {
-	
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
 	playerModel->Draw("Taihou", Vector3(position.x, position.y+1.2f, position.z), Vector3(angle.x, angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
 	playerModel->Draw("Yoko", Vector3(position.x, position.y, position.z), Vector3(0, angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
 	playerModel->Draw("Daiza", Vector3(position.x-0.3f, position.y, position.z), Vector3(0, 0, 0), Vector3(1.5f, 1.5f, 1.5f));
+	playerModel->Draw("Lazer", Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(1.5f, 1.5f, 1.5f));
 	
 	
-	//playerParticleBox->EmitterUpdateUpGas("Lazier", Vector3(firePos.x, firePos.y, firePos.z), Vector3(angle.x, -angle.y, 0.0f));
 	DirectXManager::GetInstance()->SetData2D();
 	switch (HP)
 	{
@@ -157,9 +173,6 @@ void Player::Rend()
 	case 1:
 		playerSprite->Draw("Life1", Vector3(0, 0, 0), 0.0f, Vector2(0, 0), Vector4(1, 1, 1, 1));
 		break;
-	case 0:
-		GameOver = true;
-		break;
 	default:
 		break;
 	}
@@ -168,7 +181,7 @@ void Player::Rend()
 
 void Player::Hit(BaseObject & other)
 {
-	if (other.GetType() == ObjectType::ENEMY|| other.GetType() == ObjectType::ENEMYBULLET)
+	if (!objM->GetBossEnd()&&(other.GetType() == ObjectType::ENEMY|| other.GetType() == ObjectType::ENEMYBULLET))
 	{
 		hitFlag = true;
 		HP--;

@@ -16,6 +16,7 @@ public:
 
 	void Shot();
 	void BomShot();
+	void MisaileShot();
 	// BaseObject を介して継承されました
 	virtual void Init() override;
 	virtual void Update() override;
@@ -39,6 +40,5 @@ private:
 	Vector3 AIMPos;
 	//ステータス
 	int HP;
-	bool GameOver = false;
 	int bulletStock;//弾をいっぱいだすため
 };

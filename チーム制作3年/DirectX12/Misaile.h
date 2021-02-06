@@ -4,13 +4,16 @@
 #include<memory>
 #include"ModelRenderer.h"
 #include"ParticleManager.h"
+#include"Sound.h"
 class Misaile:public BaseObject
 {
 public:
 	Misaile(Vector3 pos, Vector3 angle, ObjectManager* obj, shared_ptr<ModelRenderer>m, shared_ptr<ParticleManager>p, ObjectType t, int num);
 	~Misaile();
 private:
-	void MisaileMove(Vector3 Target);
+	void MisaileMove();//プレイヤーの
+	void EnemyMisaileMove();//敵の
+	Vector3 TargetPosSet(Vector3 vec);
 
 	ObjectManager* objM;
 	std::shared_ptr<ModelRenderer>MisaileModel;
@@ -19,7 +22,7 @@ private:
 	Vector3 TargetPos;//突撃先
 	int alive;
 	float speed;
-
+	Sound* sound;
 	//複数だす用
 	int number = 0;
 	string name;//キーワード登録
@@ -34,5 +37,7 @@ private:
 	virtual void Rend() override;
 
 	virtual void Hit(BaseObject & other) override;
-
+	//誰の弾か
+	ObjectType setType;
+	void SetBulletType();
 };

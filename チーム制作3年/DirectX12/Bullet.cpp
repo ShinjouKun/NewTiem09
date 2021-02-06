@@ -12,7 +12,6 @@ Bullet::Bullet(Vector3 pos, Vector3 ang, ObjectManager * obj, std::shared_ptr<Mo
 
 Bullet::~Bullet()
 {
-	
 }
 
 void Bullet::Init()
@@ -29,6 +28,8 @@ void Bullet::Init()
 	
 	SphereSize = 2.0f;
 	speed = 1.5f;
+	sound = new Sound();
+	sound->LoadSE("Resouse/endingse.wav");
 }
 
 void Bullet::Update()
@@ -56,11 +57,13 @@ void Bullet::Hit(BaseObject & other)
 {
 	if (objType == BULLET&& (other.GetType() == ObjectType::ENEMY|| other.GetType() == ObjectType::BOSS || other.GetType() == ObjectType::ENEMYBULLET))
 	{
+		sound->Play("Resouse/endingse.wav");
 		BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
 		death = true;
 	}
 	if (objType == ENEMYBULLET && (other.GetType() == ObjectType::PLAYER || other.GetType() == ObjectType::BULLET))
 	{
+		sound->Play("Resouse/endingse.wav");
 		BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
 		death = true;
 	}

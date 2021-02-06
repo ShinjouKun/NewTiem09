@@ -12,7 +12,10 @@ public:
 	~Boss();
 
 	void Shot();
-	void Move();
+	void Shot2();
+	void Move();//‰Šúmove
+	void Move2();//50“
+	void Move3();//20ˆÈ‰º
 	// BaseObject ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
 	virtual void Init() override;
 

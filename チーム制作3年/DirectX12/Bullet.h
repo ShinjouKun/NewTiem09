@@ -4,6 +4,7 @@
 #include<memory>
 #include"ModelRenderer.h"
 #include"ParticleManager.h"
+#include"Sound.h"
 class Bullet:public BaseObject
 {
 public:
@@ -18,7 +19,7 @@ private:
 	Vector3 TargetPos;
 	int alive;
 	float speed;
-
+	Sound* sound;
 	//複数だす用
 	int number = 0;
 	string name;//キーワード登録

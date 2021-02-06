@@ -15,9 +15,9 @@ class GamePlay:public BaseScene
 public:
 	GamePlay();
 	~GamePlay();
-
 private:
-
+	bool GameOver;
+	bool GameClear;
 
 	// BaseScene ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
 	virtual void StartScene() override;

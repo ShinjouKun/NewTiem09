@@ -83,13 +83,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	TexLoader::GetInstance()->Load("Resouse/hit.png");
 	TexLoader::GetInstance()->Load("Resouse/sougen.jpg");
-	TexLoader::GetInstance()->Load("Resouse/AIM64.png");
+	TexLoader::GetInstance()->Load("Resouse/Title.png");
 	TexLoader::GetInstance()->Load("Resouse/TaihouLife.png");
+	TexLoader::GetInstance()->Load("Resouse/stone.jpg");
 	
 	//Player
 	ModelLoader::GetInstance()->Load("Resouse/daiza.obj");
 	ModelLoader::GetInstance()->Load("Resouse/yoko.obj");
 	ModelLoader::GetInstance()->Load("Resouse/taihou.obj");
+	ModelLoader::GetInstance()->Load("Resouse/L2.obj");
+	//ƒgƒ“ƒlƒ‹
+	ModelLoader::GetInstance()->Load("Resouse/doukutu.obj");
 	//Enemy
 	ModelLoader::GetInstance()->Load("Resouse/enemy2.obj");
 	//BOSS

@@ -26,6 +26,8 @@ void ObjectManager::Claer()
 			delete obj;
 	}
 	objectList.clear();
+	playerEnd = false;
+	bossEnd = false;
 }
 
 void ObjectManager::Add(BaseObject * addObj)
@@ -62,7 +64,7 @@ void ObjectManager::ObjectManagerUpdate()//主に当たり判定など
 			obj1->Update();
 		for (auto obj2:objectList)
 		{
-			if (obj2 == nullptr || obj2->GetDeath())continue;
+			if (obj2 == nullptr || obj2->GetDeath()||obj1==obj2)continue;
 			{
 				//球対球
 				if (obj1->StoS_Col(*obj2))
@@ -95,6 +97,13 @@ void ObjectManager::RemoveListUpdate()
 		}
 		else if((*itr)->GetDeath())
 		{
+			//プレイヤーかボスの場合
+			if ((*itr)->GetType() == ObjectType::BOSS)
+				bossEnd = true;
+			if ((*itr)->GetType() == ObjectType::PLAYER)
+				playerEnd = true;
+
+
 			BaseObject* deleteObj = (*itr);
 			itr = objectList.erase(itr);
 			delete deleteObj;
@@ -124,5 +133,15 @@ void ObjectManager::Draw()
 std::vector<BaseObject*> ObjectManager::getUseList()
 {
 	return objectList;
+}
+
+bool ObjectManager::GetBossEnd()
+{
+	return bossEnd;
+}
+
+bool ObjectManager::GetPlayerEnd()
+{
+	return playerEnd;
 }
 

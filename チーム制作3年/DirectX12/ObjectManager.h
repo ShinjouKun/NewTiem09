@@ -16,7 +16,8 @@ public:
 	void AddListUpdate();//追加したリストの更新
 	void ObjectManagerUpdate();//リスト内のオブジェクトの更新
 	void RemoveListUpdate();//死んだものなどの更新処理
-
+	bool GetBossEnd();
+	bool GetPlayerEnd();
 	void Draw();//描画処理
 	std::vector<BaseObject*>getUseList();
 private:
@@ -26,4 +27,9 @@ private:
 
 	//当たり判定
 	AABB* box;
+	//終了処理用
+	bool playerEnd;
+	bool bossEnd;
+
+	
 };
