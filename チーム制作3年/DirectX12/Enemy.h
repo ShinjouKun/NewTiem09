@@ -44,7 +44,7 @@ public:
 
 	virtual void Hit(BaseObject & other) override;
 	
-	void GetPlayerPos(Vector3 player) { pos_P = player; };
+	void SetPlayerPos(Vector3 player) { pos_P = player; };
 
 private:
 
@@ -81,7 +81,7 @@ private:
 	bool ArrivalFlag = false;	//出現したか
 	Vector3 ArrivalPos;			//出現場所
 
-	//bool movePermet = false;
+	bool movePermet = false;
 
 	Vector3 movePoint;			//移動先
 	Vector3 ranMovePoint;		//移動先
@@ -89,8 +89,9 @@ private:
 	int waitTime = 0;			//待ち時間
 
 	Vector3 dist;
-	Vector3 pos_P;
+	Vector3 pos_P; //プレイヤーのポジション
 
 	const int StartMovingDist = 60; //移動開始距離：アーマータイプ用
 	const int finishTime = 0;
+	   	 
 };

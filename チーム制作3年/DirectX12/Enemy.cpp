@@ -276,7 +276,7 @@ void Enemy::MovePattern(mpattern patternnum)
 
 	case mpattern::Armor:
 		
-#pragma region アーマー
+#pragma region 装甲
 
 		shotDamageAmount = 3;
 
@@ -284,17 +284,16 @@ void Enemy::MovePattern(mpattern patternnum)
 
 
 		//一定距離に達成したら
-		/*if (dist.z <= StartMovingDist) {
-			movePermet = true;
-		}*/
 
 		if (dist.z <= StartMovingDist &&
 			tackletime != finishTime) {
+			movePermet = true;
 			speed = 0.2;
 			tackletime--;
 		}
 
-		if (tackletime == finishTime)
+		if (movePermet &&
+			(tackletime == finishTime))
 		{
 			speed = 0;
 			if (movetime < 200)movetime++;
@@ -302,9 +301,13 @@ void Enemy::MovePattern(mpattern patternnum)
 			position = Easing::ease_in_back(
 				movetime,
 				position,
-				position - pos_P,
+				position - Vector3( pos_P.x, pos_P.y, pos_P.z + 10),
 				200);
-
+			
+			if (position.z >= pos_P.z+8)
+			{
+				movePermet = false;
+			}
 
 		}
 
