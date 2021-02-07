@@ -23,8 +23,7 @@ void Boss::Shot()
 void Boss::Shot2()
 {
 	objM->Add(new Misaile(Vector3(position.x+15.0f, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock));
-	objM->Add(new Misaile(Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock+1));
-	objM->Add(new Misaile(Vector3(position.x-15.0f, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock+2));
+	objM->Add(new Misaile(Vector3(position.x-15.0f, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, bossModel, bossParticle, objType, bulletStock+1));
 	ShotCount = 0;
 	ShotFlag = false;
 }
