@@ -24,7 +24,7 @@ void Title::StartScene()
 	BaseScene::mModel->AddModel("Daiza", "Resouse/daiza.obj", "Resouse/daiza.png");
 	BaseScene::mModel->SetAncPoint("Daiza", Vector3(0.0f, -1.0f, 0.0f));
 	
-	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
+	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/sora.png");
 	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/sougen.jpg");
 	BaseScene::mSprite->AddTexture("Title", "Resouse/Title.png");
 	sound = new Sound();

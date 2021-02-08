@@ -19,7 +19,7 @@ void GamePlay::StartScene()
 	GameClear = false;				//ゲームクリア  （boss死んだとき）
 	objM->Add(new Player(Vector3(0, 8.0f, -50.0f), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle, BaseScene::mSprite));
 	objM->Add(new Boss(Vector3(0, 0, 0), Vector3(0, 0, 0), objM, BaseScene::mModel, BaseScene::mParticle));
-	BaseScene::mModel->AddModel("Sora2", "Resouse/skydome.obj", "Resouse/skydome.jpg");
+	BaseScene::mModel->AddModel("Sora2", "Resouse/skydome.obj", "Resouse/sora.png");
 	BaseScene::mModel->AddModel("Ground2", "Resouse/ground.obj", "Resouse/sougen.jpg");
 	ClearSound = new Sound();
 	ClearSound->LoadBGM("Resouse/GAMECLEAR.wav");
