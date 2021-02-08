@@ -6,12 +6,18 @@
 #include"TexRenderer.h"
 #include"ModelRenderer.h"
 #include"ParticleManager.h"
+#include"Track.h"
 
 using namespace std;
 class Player :public BaseObject
 {
 public:
-	Player(Vector3 pos, Vector3 angle, ObjectManager* obj,shared_ptr<ModelRenderer>m,shared_ptr<ParticleManager>p,shared_ptr<TexRenderer>s);
+	Player(Vector3 pos, 
+		Vector3 angle,
+		ObjectManager* obj,
+		shared_ptr<ModelRenderer>m,
+		shared_ptr<ParticleManager>p,
+		shared_ptr<TexRenderer>s);
 	~Player();
 
 	void Shot();
@@ -23,6 +29,7 @@ public:
 	virtual void Rend() override;
 	virtual void Hit(BaseObject & other) override;
 
+	Vector3 GetPosition() { return position; }
 
 private:
 	ObjectManager* objM;

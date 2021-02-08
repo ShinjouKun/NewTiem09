@@ -178,6 +178,7 @@
     <ClCompile Include="TexLoader.cpp" />
     <ClCompile Include="TexRenderer.cpp" />
     <ClCompile Include="Title.cpp" />
+    <ClCompile Include="Track.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vector4.cpp" />
@@ -339,6 +340,7 @@
     <ClInclude Include="TexLoader.h" />
     <ClInclude Include="TexRenderer.h" />
     <ClInclude Include="Title.h" />
+    <ClInclude Include="Track.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />

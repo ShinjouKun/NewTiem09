@@ -26,6 +26,14 @@ public:
 	Vector3& operator *=(float s);
 	Vector3& operator /=(float s);
 
+	//”äŠr‰‰ŽZ
+	bool operator== (const Vector3& vec)const;
+	bool operator!= (const Vector3& vec)const;
+	bool operator<= (const Vector3& vec)const;
+	bool operator>= (const Vector3& vec)const;
+	bool operator< (const Vector3& vec)const;
+	bool operator> (const Vector3& vec)const;
+
 	static const Vector3 zero;
 	static const Vector3 one;
 private:
