@@ -119,3 +119,8 @@ void Sound::Play(const char*filename)
 {
 	sourceVoice->Start();
 }
+
+void Sound::Stop()
+{
+	sourceVoice->Stop();
+}

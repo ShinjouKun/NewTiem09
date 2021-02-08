@@ -9,6 +9,7 @@
 #include"Player.h"
 #include"Enemy.h"
 #include"ObjectManager.h"
+#include"Sound.h"
 class Title:public BaseScene
 {
 public:
@@ -30,6 +31,6 @@ private:
 	Enemy* enemy;
 
 	Vector3 p_pos;
-
-
+	Sound* sound;
+	Sound* se;
 };

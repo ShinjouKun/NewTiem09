@@ -86,7 +86,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	TexLoader::GetInstance()->Load("Resouse/Title.png");
 	TexLoader::GetInstance()->Load("Resouse/TaihouLife.png");
 	TexLoader::GetInstance()->Load("Resouse/stone.jpg");
-	
+	TexLoader::GetInstance()->Load("Resouse/GAMECLAR.png");
+	TexLoader::GetInstance()->Load("Resouse/GAMEOVER.png");
 	//Player
 	ModelLoader::GetInstance()->Load("Resouse/daiza.obj");
 	ModelLoader::GetInstance()->Load("Resouse/yoko.obj");
@@ -101,6 +102,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelLoader::GetInstance()->Load("Resouse/boss1_core1.obj");
 	//Bullet
 	ModelLoader::GetInstance()->Load("Resouse/Bullet.obj");
+	ModelLoader::GetInstance()->Load("Resouse/misail.obj");
+	//レール
+	ModelLoader::GetInstance()->Load("Resouse/re-ru.obj");
+
 
 	ModelLoader::GetInstance()->Load("Resouse/skydome.obj");
 	ModelLoader::GetInstance()->Load("Resouse/ground.obj");
@@ -115,9 +120,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	shared_ptr<ModelRenderer>model = make_shared<ModelRenderer>(pipeLine);
 	
 	//サウンド
-	Sound* sound = new Sound();
-	sound->LoadSE("Resouse/endingse.wav");
-	sound->Play("Resouse/endingse.wav");
 	
 	Input* input = new Input();//インプットインスタンス生成
 	input->Init(window->GetHWND());//インプット初期化
@@ -162,7 +164,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipeLine->Clear();
 	delete input;
 	delete camera;
-	delete sound;
 	delete pipeLine;
 	return 0;
 }

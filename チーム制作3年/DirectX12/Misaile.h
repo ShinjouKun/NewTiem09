@@ -19,6 +19,7 @@ private:
 	std::shared_ptr<ModelRenderer>MisaileModel;
 	shared_ptr<ParticleManager>MisaileParticle;
 	shared_ptr<ParticleEmitterBox>MisaileParticleBox;
+
 	Vector3 TargetPos;//“ËŒ‚æ
 	int alive;
 	float speed;

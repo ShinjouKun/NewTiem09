@@ -10,6 +10,7 @@
 #include"ModelRenderer.h"
 #include"TexRenderer.h"
 #include"ParticleManager.h"
+#include"Sound.h"
 class GamePlay:public BaseScene
 {
 public:
@@ -31,5 +32,8 @@ private:
 	Enemy* enemy;
 	Boss* boss;
 	Camera* camera;
+	Sound* ClearSound;
+	Sound* GameOverSound;
+	Sound* BGMsound;
 	float x, y, z;
 };

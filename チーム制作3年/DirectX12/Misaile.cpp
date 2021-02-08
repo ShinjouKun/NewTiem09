@@ -26,8 +26,6 @@ void Misaile::MisaileMove()
 			velocity = TargetPosSet(velocity);
 		}
 	}
-
-	
 	
 	velocity *= Matrix4::RotateX(angle.x);
 	velocity *= Matrix4::RotateY(angle.y);
@@ -66,7 +64,7 @@ void Misaile::Init()
 	name = "Bullet";
 	num = to_string(number);
 	numName = name + num;
-	MisaileModel->AddModel(numName, "Resouse/Bullet.obj", "Resouse/Bullet.png");
+	MisaileModel->AddModel(numName, "Resouse/misail.obj", "Resouse/misail.png");
 	MisaileParticleBox = make_shared<ParticleEmitterBox>(MisaileParticle);
 	MisaileParticleBox->LoadAndSet("Bom", "Resouse/Bom.jpg");
 	alive = 0;
@@ -75,7 +73,7 @@ void Misaile::Init()
 	SphereSize = 2.0f;
 	speed = 0.5f;
 	sound = new Sound();
-	sound->LoadSE("Resouse/endingse.wav");
+	sound->LoadSE("Resouse/bom.wav");
 }
 
 void Misaile::Update()
@@ -102,7 +100,7 @@ void Misaile::Update()
 void Misaile::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();//モデル用をセット
-	MisaileModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, 0), Vector3(2, 2, 2));
+	MisaileModel->Draw(numName, Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), Vector3(2, 2, 2));
 }
 
 void Misaile::Hit(BaseObject & other)
@@ -110,13 +108,13 @@ void Misaile::Hit(BaseObject & other)
 	if (objType == BULLET && (other.GetType() == ObjectType::ENEMY || other.GetType() == ObjectType::BOSS || other.GetType() == ObjectType::ENEMYBULLET))
 	{
 		MisaileParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
-		sound->Play("Resouse/endingse.wav");
+	    sound->Play("Resouse/bom.wav");
 		death = true;
 	}
 	if (objType == ENEMYBULLET && (other.GetType() == ObjectType::PLAYER || other.GetType() == ObjectType::BULLET))
 	{
 		MisaileParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
-		sound->Play("Resouse/endingse.wav");
+		sound->Play("Resouse/bom.wav");
 		death = true;
 	}
 }

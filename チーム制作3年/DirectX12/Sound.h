@@ -31,7 +31,7 @@ public:
 	void LoadSE(const char*filename);//Ä¶iˆê‰ñj
 	void LoadBGM(const char*filename);//
 	void Play(const char*filename);
-	
+	void Stop();
 
 private:
 	ComPtr<IXAudio2>xAudio2;
