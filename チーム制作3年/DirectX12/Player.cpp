@@ -42,13 +42,13 @@ void Player::Init()
 	death = false;
 	objType = ObjectType::PLAYER;
 	SphereSize = 1.0f;
-	position = Vector3(0.0f, 6.0f, -90.0f);
+	//position = Vector3(0.0f, 6.0f, -90.0f);
 	firePos = Vector3(position.x,position.y + 1.5f,position.z);
 	angle.x = 20.0f;
 	angle.y = 180.0f;
 	//AIMPos = Vector3(Window::Window_Width/2,Window::Window_Height/2,0.0f);
 	AIMPos = Vector3(position.x,position.y,position.z);
-	speed = 0.1f;	
+	speed = 0.2f;	
 }
 
 void Player::Update()
@@ -105,8 +105,8 @@ void Player::Update()
 #pragma region ゲームパッド処理
 
 	//　左スティック()
-
-	if (Input::pad_data.lX < 0) {
+	if (Input::pad_data.lX < 0) //　左
+	{
 		angle.y += 2.0f;
 		AIMPos.x -= 6.0f;
 		if (angle.y >= 220.0f)
@@ -114,8 +114,8 @@ void Player::Update()
 			angle.y = 220.0f;
 		}
 	}
-
-	if (Input::pad_data.lX > 0) {
+	if (Input::pad_data.lX > 0) //　右
+	{
 		angle.y -= 2.0f;
 		AIMPos.x += 6.0f;
 		
@@ -124,8 +124,8 @@ void Player::Update()
 			angle.y = 140.0f;
 		}
 	}	
-
-	if (Input::pad_data.lY < 0) {
+	if (Input::pad_data.lY < 0) //　下
+	{
 		angle.x += 2.0f;
 		AIMPos.y -= 6.0f;
 		if (angle.x <= -2.0f)
@@ -133,7 +133,8 @@ void Player::Update()
 			angle.x = 0.0f;
 		}
 	}
-	if (Input::pad_data.lY > 0) {
+	if (Input::pad_data.lY > 0) //　上
+	{
 		angle.x -= 2.0f;
 		AIMPos.y += 6.0f;
 		if (angle.x >= 60.0f)
@@ -143,19 +144,23 @@ void Player::Update()
 	}
 
 	//　右スティック
-	if (Input::pad_data.lZ < 0) {
+	if (Input::pad_data.lZ < 0) //左
+	{
 		camera->CameraMoveEyeVector({ -2.0f,0,0 });
 
 	}
-	if (Input::pad_data.lZ > 0) {
+	if (Input::pad_data.lZ > 0) //　右
+	{
 		camera->CameraMoveEyeVector({ 2.0f,0,0 });
 
 	}
-	if (Input::pad_data.lRz < 0) {
+	if (Input::pad_data.lRz < 0)//　下
+	{
 		camera->CameraMoveEyeVector({ 0,2.0f,0 });
 
 	}
-	if (Input::pad_data.lRz > 0) {
+	if (Input::pad_data.lRz > 0)  //　上
+	{
 		camera->CameraMoveEyeVector({ 0,-2.0f,0 });
 
 	}
@@ -171,6 +176,7 @@ void Player::Update()
 
 	}
 
+
 	//　ショット
 	if (Input::PushButton(BUTTON_A)) {
 		Shot();
@@ -181,9 +187,8 @@ void Player::Update()
 
 #pragma endregion
 
+	position.z -= 1 * speed;
 
-	
-	
 	if (shotFlag)
 	{
 		shotcnt++;

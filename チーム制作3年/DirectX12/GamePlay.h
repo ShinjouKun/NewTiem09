@@ -9,6 +9,8 @@
 #include"ModelRenderer.h"
 #include"TexRenderer.h"
 #include"ParticleManager.h"
+#include"Track.h"
+
 class GamePlay:public BaseScene
 {
 public:
@@ -29,5 +31,8 @@ private:
 	Player* player;//ƒvƒŒƒCƒ„[‚ÌÀ‘Ì¶¬
 	Enemy* enemy;
 	Camera* camera;
+	Track* track;
+
+
 	float x, y, z;
 };

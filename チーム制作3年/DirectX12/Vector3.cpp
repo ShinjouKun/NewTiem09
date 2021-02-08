@@ -165,6 +165,26 @@ bool Vector3::operator>=(const Vector3 & vec) const
 	return false;
 }
 
+bool Vector3::operator<(const Vector3 & vec) const
+{
+	if (this->x < vec.x &&
+		this->y < vec.y &&
+		this->z < vec.z) {
+		return true;
+	}
+	return false;
+}
+
+bool Vector3::operator>(const Vector3 & vec) const
+{
+	if (this->x > vec.x &&
+		this->y > vec.y &&
+		this->z > vec.z) {
+		return true;
+	}
+	return false;
+}
+
 const Vector3 operator+(const Vector3 & v1, const Vector3 & v2)
 {
 	return Vector3(v1.x + v2.x, v1.y + v2.y,v1.z + v2.z);

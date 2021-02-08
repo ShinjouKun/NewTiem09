@@ -31,6 +31,8 @@ public:
 	bool operator!= (const Vector3& vec)const;
 	bool operator<= (const Vector3& vec)const;
 	bool operator>= (const Vector3& vec)const;
+	bool operator< (const Vector3& vec)const;
+	bool operator> (const Vector3& vec)const;
 
 	static const Vector3 zero;
 	static const Vector3 one;
