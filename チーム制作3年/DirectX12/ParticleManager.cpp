@@ -13,7 +13,6 @@ ParticleManager::~ParticleManager()
 
 void ParticleManager::Init()
 {
-	texNum = 300;
 	matProjectionP = Matrix4::Identity;
 	matProjectionP.m[3][0] = -1.0f;
 	matProjectionP.m[3][1] = 1.0f;
@@ -156,31 +155,6 @@ void ParticleManager::CreatePlane()
 	
 }
 
-void ParticleManager::CreateTexture(const string& filename)
-{
-	UINT descriptorHandleIncrementSize;
-
-	descriptorHandleIncrementSize =
-		DirectXManager::GetInstance()->Dev()->
-		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	ComPtr<ID3D12Resource> res;
-	res = TexLoader::GetInstance()->GetTexList(filename);
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // 設定構造体
-	D3D12_RESOURCE_DESC resDesc = res->GetDesc();//受け取る
-	srvDesc.Format = resDesc.Format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = 1;
-
-	
-	DirectXManager::GetInstance()->Dev()->CreateShaderResourceView(res.Get(),
-		&srvDesc,
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(pipeLine->GetDescripterHeap()->GetCPUDescriptorHandleForHeapStart(),
-			texNum,
-			descriptorHandleIncrementSize));
-	
-}
-
 void ParticleManager::CreateParticleData(const string & key,const string& filename)
 {
 	
@@ -199,9 +173,8 @@ void ParticleManager::CreateParticleData(const string & key,const string& filena
 	}
 	v.clear();
 	CreateBuff(key);
-	CreateTexture(filename);
-	d.texNum = texNum;
-	texNum++;//番号を進める
+	//TexNameをキーにテクスチャデータを呼び出してdataに登録する
+	d.texData = &TexLoader::GetInstance(pipeLine)->GetTexList(filename);
 }
 
 void ParticleManager::DrawParticleBill(const string & key)
@@ -214,7 +187,7 @@ void ParticleManager::DrawParticleBill(const string & key)
 	DirectXManager::GetInstance()->CmdList()->SetGraphicsRootDescriptorTable(
 		1,
 		CD3DX12_GPU_DESCRIPTOR_HANDLE(pipeLine->GetDescripterHeap()->GetGPUDescriptorHandleForHeapStart(),
-			d.texNum,
+			d.texData->TexNum,
 			DirectXManager::GetInstance()->Dev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 	
 	int num = std::distance(d.particles.begin(), d.particles.end());
@@ -304,7 +277,7 @@ ParticleEmitterBox::~ParticleEmitterBox()
 
 void ParticleEmitterBox::LoadAndSet(const string& key,const string& filename)
 {
-	TexLoader::GetInstance()->Load(filename);
+	TexLoader::GetInstance(pipeLine)->Load(filename);
 	particle->CreateParticleData(key,filename);
 }
 
@@ -329,6 +302,30 @@ void ParticleEmitterBox::EmitterUpdate(const string& key, const Vector3& pos, co
 		
 		//リストに追加
 		particle->Add(key,30, pos, pVel, acc, 5.0f, 0.0f, Vector4(1,1,1,1),angle);
+	}
+}
+
+void ParticleEmitterBox::EmitterUpdateBIG(const string & key, const Vector3 & pos, const Vector3 & angle)
+{
+	this->pos = pos;
+	this->angle = angle;
+	for (int i = 0; i < 15; i++)
+	{
+		const float rndVel = 0.5f;
+		Vector3 pVel;
+		pVel.x = (float)rand() / RAND_MAX * rndVel - rndVel / 2.0f;
+		pVel.y = (float)rand() / RAND_MAX * rndVel - rndVel / 2.0f;
+		pVel.z = (float)rand() / RAND_MAX * rndVel - rndVel / 2.0f;
+		pVel *= Matrix4::RotateZ(angle.z);
+		pVel *= Matrix4::RotateX(angle.x);
+		pVel *= Matrix4::RotateY(-angle.y);
+
+		Vector3 acc;
+		const float rndAcc = 0.005f;
+		acc.y = -(float)rand() / RAND_MAX * rndAcc;
+
+		//リストに追加
+		particle->Add(key, 60, pos, pVel, acc, 15.0f, 0.0f, Vector4(1, 1, 1, 1), angle);
 	}
 }
 

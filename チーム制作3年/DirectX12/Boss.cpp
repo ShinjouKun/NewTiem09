@@ -37,21 +37,55 @@ void Boss::Shot3()
 	ShotFlag = false;
 }
 
-void Boss::Move()
+void Boss::Stay()
 {
-	Count++;
-	if (Count<=80)
+	if (position.y != 12.0f)
 	{
-		position.x -= 1.0f;
+		position.y -= 1.0f;
 	}
 	else
 	{
-		position.x += 1.0f;
-		if (Count >= 160)
+		stayOff = true;
+	}
+	
+}
+
+void Boss::Move()
+{
+	Count++;
+	if (!firet)
+	{
+		if(Count >= 80)
+		{
+			position.x += 1.0f;
+		}
+		else
+		{
+			position.x -= 1.0f;
+		}
+	    if(Count >= 240)
+		{
+			firet = true;
+			Count = 0;
+		}
+	}
+	else
+	{
+		if (Count <= 160)
+		{
+			position.x -= 1.0f;
+		}
+		else
+		{
+			position.x += 1.0f;
+		}
+		if (Count >= 320)
 		{
 			Count = 0;
 		}
 	}
+	
+    
 	//UŒ‚
 	if (!ShotFlag)
 	{
@@ -108,13 +142,13 @@ void Boss::Move3()
 		}
 	}
 	velocity *= Matrix4::RotateZ(angle.z);
-	position += velocity * speed;
+	position -= velocity * speed;
 
 	//UŒ‚
 	if (!ShotFlag)
 	{
 		ShotCount++;
-		if (ShotCount >= 80)
+		if (ShotCount >= 110)
 		{
 			ShotFlag = true;
 			Shot3();
@@ -125,11 +159,13 @@ void Boss::Move3()
 void Boss::Init()
 {
 	Count = 0;
+	firet = false;
+	End = false;
 	FripCount = 0;
 	HP = 100;
 	death = false;
-	speed = 0.7f;
-	position = Vector3(40.0f, 14.0f, -180.0f);
+	speed = 0.8f;
+	position = Vector3(0.0f, 100.0f, -640.0f);
 	SphereSize = 15.0f;
 	ShotFlag = false;
 	HitFlag = false;
@@ -141,48 +177,84 @@ void Boss::Init()
 	bossParticleBox = make_shared<ParticleEmitterBox>(bossParticle);
 	bossParticleBox->LoadAndSet("HIT", "Resouse/Bom.jpg");
 	bulletStock = 100;
+	stayOff = false;
+	bomCnt = 0;
 }
 
 void Boss::Update()
 {
-	if (HP >= 60)
+	if (!End)
 	{
-		Move();
-	}
-	else if(HP >= 30)
-	{
-		Move2();
-	}
-	else
-	{
-		Move3();
-	}
-	//“–‚½‚è
-	if (HitFlag)
-	{
-		HitCount++;
-		if (HitCount >= 30)
+		for (auto& t : objM->getUseList())
 		{
-			HitCount = 0;
-			HitFlag = false;
+			if (t->GetType() == ObjectType::PLAYER)
+			{
+				playerPos = t->GetPosition();
+			}
+		}
+		Vector3 v = playerPos - position;
+
+
+		if (v.z < 100.0f)
+		{
+
+			if (stayOff)
+			{
+				if (HP >= 60)
+				{
+					Move();
+				}
+				else if (HP >= 40)
+				{
+					Move2();
+				}
+				else
+				{
+					Move3();
+				}
+			}
+			else
+			{
+				Stay();
+			}
+
+		}
+
+		//“–‚½‚è
+		if (HitFlag)
+		{
+			HitCount++;
+			if (HitCount >= 30)
+			{
+				HitCount = 0;
+				HitFlag = false;
+			}
+		}
+
+
+		//‹…”ãŒÀ‚ðÝ‚¯
+		if (bulletStock >= 130)
+		{
+			bulletStock = 100;
 		}
 	}
-	if (HP == 0)
-	{
-		death = true;
-	}
 	
-	//‹…”ãŒÀ‚ðÝ‚¯
-	if (bulletStock >= 150)
-	{
-		bulletStock = 100;
-	}
 }
 
 void Boss::Rend()
 {
 	DirectXManager::GetInstance()->SetData3D();
 	bossModel->Draw("BOSS", position, Vector3(angle.x,angle.y,0), Vector3(10, 10, 10));
+	if (HP == 0)
+	{
+		End = true;
+		bossParticleBox->EmitterUpdateBIG("HIT", position, angle);
+		bomCnt++;
+		if (bomCnt >= 110)
+		{
+			death = true;
+		}
+	}
 }
 
 void Boss::Hit(BaseObject & other)

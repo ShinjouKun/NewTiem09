@@ -11,7 +11,7 @@ namespace {
 {
 	return Datas[keyWord];
 }
-ModelLoader::ModelLoader()
+ModelLoader::ModelLoader(PipeLine* pipeline):pipeLine(pipeline)
 {
 	
 }
@@ -57,9 +57,9 @@ void ModelLoader::Load(const string& filename)
 }
 
 
-ModelLoader * ModelLoader::GetInstance()
+ModelLoader * ModelLoader::GetInstance(PipeLine* pipeline)
 {
-	static ModelLoader instance;
+	static ModelLoader instance(pipeline);
 	return &instance;
 }
 
@@ -195,7 +195,7 @@ bool ModelLoader::CreateMatrial(OBJData &objMat, std::string filePath)
 					objMat.mat.TexKeyWord = split[0];
 				}
 			//‚±‚±‚Å‰æ‘œ‚Ì“Ç‚İ‚İ
-				TexLoader::GetInstance()->Load(objMat.mat.TextureName.c_str());
+				TexLoader::GetInstance(pipeLine)->Load(objMat.mat.TextureName.c_str());
 			}
 			//AmbientƒJƒ‰[
 			else if (strstr(buffer, "Ka") == buffer)

@@ -4,7 +4,6 @@
 #include"Misaile.h"
 #include "Input.h"
 #include<sstream>
-
 Player::Player(Vector3 pos, Vector3 ang, ObjectManager * obj,shared_ptr<ModelRenderer> m, shared_ptr<ParticleManager>p, shared_ptr<TexRenderer>s)
 	:playerModel(m),playerParticle(p),playerSprite(s)
 {
@@ -34,6 +33,8 @@ void Player::MisaileShot()
 
 void Player::Init()
 {
+	HitFlag = false;
+	HitCount = 0;
 	//model
 	playerModel->AddModel("Taihou", "Resouse/taihou.obj","Resouse/taihou.png");
 	playerModel->SetAncPoint("Taihou", Vector3(0.0f, -1.0f, 0.0f));
@@ -48,22 +49,40 @@ void Player::Init()
 	playerSprite->AddTexture("Life1", "Resouse/TaihouLife.png");
 	playerSprite->AddTexture("Life2", "Resouse/TaihouLife.png");
 	playerSprite->AddTexture("Life3", "Resouse/TaihouLife.png");
-
+	playerSprite->AddTexture("Damage","Resouse/damage.png");
 	death = false;
 	objType = ObjectType::PLAYER;
 	SphereSize = 1.0f;
-	position = Vector3(0.0f, 6.0f, -90.0f);
+	position = Vector3(0.0f, 6.0f, -60.0f);
 	firePos = Vector3(position.x,position.y + 1.5f,position.z);
 	angle.x = 20.0f;
 	angle.y = 180.0f;
-	//AIMPos = Vector3(Window::Window_Width/2,Window::Window_Height/2,0.0f);
 	AIMPos = Vector3(position.x,position.y,position.z);
 	speed = 0.1f;	
 	bulletStock = 0;
+	sound = new Sound();
+	sound->LoadSE("Resouse/bom.wav");
 }
 
 void Player::Update()
 {
+	
+	if (position.z >= -570.0f)
+	{
+		position.z -= 0.2f;
+	}
+	
+		
+	//“–‚½‚è
+	if (HitFlag)
+	{
+		HitCount++;
+		if (HitCount >= 30)
+		{
+			HitCount = 0;
+			HitFlag = false;
+		}
+	}
 	//€–Sˆ—
 	if (HP == 0)
 	{
@@ -74,9 +93,9 @@ void Player::Update()
 
 	velocity = Vector3(0,0,0);
 	//ƒL[‰Ÿ‚µˆ—
-	if (Input::KeyState(DIK_UP))
+	if (Input::KeyState(DIK_UP)||Input::pad_data.lY<0)
 	{
-		angle.x += 2.0f;
+		angle.x += 0.7f;
 		AIMPos.y -= 6.0f;
 	}
 	//ãŒÀ
@@ -85,9 +104,9 @@ void Player::Update()
 		angle.x = 60.0f;
 	}
 	
-	if (Input::KeyState(DIK_DOWN))
+	if (Input::KeyState(DIK_DOWN) || Input::pad_data.lY > 0)
 	{
-		angle.x -= 1.0f;
+		angle.x -= 0.7f;
 		AIMPos.y += 6.0f;
 	}
 	//‰ºŒÀ
@@ -96,18 +115,18 @@ void Player::Update()
 		angle.x = 0.0f;
 	}
 
-	if (Input::KeyState(DIK_RIGHT))
+	if (Input::KeyState(DIK_RIGHT)||Input::pad_data.lX>0)
 	{
-		angle.y -= 1.0f;
+		angle.y -= 0.8f;
 		AIMPos.x += 6.0f;
 	}
 	if (angle.y >= 220.0f)
 	{
 		angle.y = 220.0f;
 	}
-	if (Input::KeyState(DIK_LEFT))
+	if (Input::KeyState(DIK_LEFT) || Input::pad_data.lX < 0)
 	{
-		angle.y += 2.0f;
+		angle.y += 0.8f;
 		AIMPos.x -= 6.0f;
 	}
 	if (angle.y <= 140.0f)
@@ -120,32 +139,25 @@ void Player::Update()
 	if (shotFlag)
 	{
 		shotcnt++;
-		if (shotcnt >= 10)
+		if (shotcnt >= 15)
 		{
 			shotFlag = false;
 		}
 	}
 	else
 	{
-	  if(Input::KeyState(DIK_SPACE))
+	  if(Input::KeyState(DIK_SPACE)|| Input::TriggerButton(BUTTON_A))
 	    {
 		   Shot();
 		   bulletStock++;
 		   shotFlag = true;
 		   shotcnt = 0;
 	    }
-	  if (Input::KeyState(DIK_C))
-	  {
-		  MisaileShot();
-		  bulletStock++;
-		  shotFlag = true;
-		  shotcnt = 0;
-	  }
 	}
 	//‹…”ãŒÀ‚ğİ‚¯
 	if (bulletStock >= 50)
 	{
-       bulletStock = 0;
+      bulletStock = 0;
 	}
 }
 
@@ -176,14 +188,14 @@ void Player::Rend()
 	default:
 		break;
 	}
-	
 }
 
 void Player::Hit(BaseObject & other)
 {
 	if (!objM->GetBossEnd()&&(other.GetType() == ObjectType::ENEMY|| other.GetType() == ObjectType::ENEMYBULLET))
 	{
-		hitFlag = true;
+		sound->Play("Resouse/bom.wav");
+		HitFlag = true;
 		HP--;
 	}
 }

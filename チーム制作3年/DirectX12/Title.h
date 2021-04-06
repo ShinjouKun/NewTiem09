@@ -33,4 +33,7 @@ private:
 	Vector3 p_pos;
 	Sound* sound;
 	Sound* se;
+	bool fadeFlag;
+	float fade;
+	int wait;//ƒ{ƒ^ƒ“‘Ò‚¿
 };

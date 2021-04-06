@@ -11,6 +11,7 @@
 #include"Vector4.h"
 #include"Matrix4.h"
 #include"PipeLine.h"
+#include"TexLoader.h"
 using namespace DirectX;
 using namespace std;
 using namespace Microsoft::WRL;
@@ -31,7 +32,7 @@ struct DrawData
 	//定数バッファ
     ComPtr<ID3D12Resource> constBuff;
 	Matrix4 matWorld;//ワールド行
-	UINT texNum;//テクスチャ番号
+	TexData* texData;
 	Vector3 ancPoint3D;
 	//GPUリソースの生
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
@@ -56,9 +57,9 @@ private:
 public:
 	ModelRenderer(PipeLine* pipeline);
 	~ModelRenderer();
-
+	void Init();
 	void AddModel(const string& key,const string& filename,const string& texName);//使うモデルの追加
-	void CreateTexture(string filename);//モデル用のテクスチャデータ作成
+	
 	void SetMaterial(OBJMatM* matData,ConstMap* map);//マテリアルのセット
 	void Draw(const string& key,const Vector3& pos,const Vector3& angle, const Vector3& scale);
 

@@ -81,35 +81,37 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	pipeLine->SetPipeline3D("unti");
 	pipeLine->SetPipelineParticle("untiP");
 
-	TexLoader::GetInstance()->Load("Resouse/hit.png");
-	TexLoader::GetInstance()->Load("Resouse/sora.png");
-	TexLoader::GetInstance()->Load("Resouse/sougen.jpg");
-	TexLoader::GetInstance()->Load("Resouse/Title.png");
-	TexLoader::GetInstance()->Load("Resouse/TaihouLife.png");
-	TexLoader::GetInstance()->Load("Resouse/stone.jpg");
-	TexLoader::GetInstance()->Load("Resouse/GAMECLAR.png");
-	TexLoader::GetInstance()->Load("Resouse/GAMEOVER.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/hit.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/jimen.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/sora.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/sougen.jpg");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/Title.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/TaihouLife.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/stone.jpg");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/GAMECLAR.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/GAMEOVER.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/fade.png");
+	TexLoader::GetInstance(pipeLine)->Load("Resouse/damage.png");
 	//Player
-	ModelLoader::GetInstance()->Load("Resouse/daiza.obj");
-	ModelLoader::GetInstance()->Load("Resouse/yoko.obj");
-	ModelLoader::GetInstance()->Load("Resouse/taihou.obj");
-	ModelLoader::GetInstance()->Load("Resouse/L2.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/daiza.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/yoko.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/taihou.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/L2.obj");
 	//トンネル
-	ModelLoader::GetInstance()->Load("Resouse/doukutu.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/doukutu.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/doukutu2.obj");
 	//Enemy
-	ModelLoader::GetInstance()->Load("Resouse/enemy2.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/enemy2.obj");
 	//BOSS
-	ModelLoader::GetInstance()->Load("Resouse/boss1.obj");
-	ModelLoader::GetInstance()->Load("Resouse/boss1_core1.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boss1.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/boss1_core1.obj");
 	//Bullet
-	ModelLoader::GetInstance()->Load("Resouse/Bullet.obj");
-	ModelLoader::GetInstance()->Load("Resouse/misail.obj");
-	//レール
-	ModelLoader::GetInstance()->Load("Resouse/re-ru.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/Bullet.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/misail.obj");
+	
 
-
-	ModelLoader::GetInstance()->Load("Resouse/skydome.obj");
-	ModelLoader::GetInstance()->Load("Resouse/ground.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/skydome.obj");
+	ModelLoader::GetInstance(pipeLine)->Load("Resouse/ground.obj");
 
 	//スプライト
 	shared_ptr<TexRenderer>sprite = make_shared<TexRenderer>(pipeLine);

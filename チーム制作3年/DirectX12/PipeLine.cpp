@@ -2,9 +2,7 @@
 #include"DirectXManager.h"
 map<string, ComPtr<ID3D12PipelineState>>PipeLine::PipeLineState;//パイプラインステート
 map<string, ComPtr<ID3D12RootSignature>>PipeLine::RootSignature;//ルートシグネスチャ
-ComPtr<ID3D12DescriptorHeap>PipeLine::DescHeap;//デスクリプタヒープ3D
-//ComPtr<ID3D12DescriptorHeap>PipeLine::SpriteDescHeap;//デスクリプタヒープ2D
-//ComPtr<ID3D12DescriptorHeap>PipeLine::ParticleDescHeap;//デスクリプタヒープパーティクル
+ComPtr<ID3D12DescriptorHeap>PipeLine::DescHeap;//デスクリプタヒープ
 PipeLine::PipeLine()
 {
 	if (!DescHeap)//初回のみ3D用
@@ -77,7 +75,7 @@ HRESULT PipeLine::SetPipeline3D(string shaderName)
 	//頂点シェーダーの読み込みとコンパイル
 	//VS
 	result = D3DCompileFromFile(
-		L"ModelVertexShader.hlsl",//シェーダーファイル名
+		L"Shader/ModelVertexShader.hlsl",//シェーダーファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"VSmain", "vs_5_0",//エントリーポイント名,シェーダーモデル指定
@@ -87,7 +85,7 @@ HRESULT PipeLine::SetPipeline3D(string shaderName)
 	);
 	//PS
 	result = D3DCompileFromFile(
-		L"ModelPixelShader.hlsl",//シェーダーファイル名
+		L"Shader/ModelPixelShader.hlsl",//シェーダーファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"PSmain", "ps_5_0",//エントリーポイント名,シェーダーモデル指定
@@ -214,7 +212,7 @@ HRESULT PipeLine::SetPipeline2D(string shaderName)
 	//頂点シェーダーの読み込みとコンパイル
 	//VS
 	result = D3DCompileFromFile(
-		L"SpriteVertexShader.hlsl",//シェーダーファイル名
+		L"Shader/SpriteVertexShader.hlsl",//シェーダーファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"VSmain", "vs_5_0",//エントリーポイント名,シェーダーモデル指定
@@ -224,7 +222,7 @@ HRESULT PipeLine::SetPipeline2D(string shaderName)
 	);
 	//PS
 	result = D3DCompileFromFile(
-		L"SpritePixelShader.hlsl",//シェーダーファイル名
+		L"Shader/SpritePixelShader.hlsl",//シェーダーファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"PSmain", "ps_5_0",//エントリーポイント名,シェーダーモデル指定
@@ -348,7 +346,7 @@ HRESULT PipeLine::SetPipelineParticle(string shaderName)
 	//頂点シェーダーの読み込みとコンパイル
 		//VS
 	result = D3DCompileFromFile(
-		L"ParticleVertexShader.hlsl",//シェーダーファイル名
+		L"Shader/ParticleVertexShader.hlsl",//シェーダーファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"VSmain", "vs_5_0",//エントリーポイント名,シェーダーモデル指定
@@ -358,7 +356,7 @@ HRESULT PipeLine::SetPipelineParticle(string shaderName)
 	);
 	//GS
 	result = D3DCompileFromFile(
-		L"ParticleGeometryShader.hlsl",//シェーダーファイル名
+		L"Shader/ParticleGeometryShader.hlsl",//シェーダーファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"main", "gs_5_0",//エントリーポイント名,シェーダーモデル指定
@@ -368,7 +366,7 @@ HRESULT PipeLine::SetPipelineParticle(string shaderName)
 	);
 	//PS
 	result = D3DCompileFromFile(
-		L"ParticlePixelShader.hlsl",//シェーダーファイル名
+		L"Shader/ParticlePixelShader.hlsl",//シェーダーファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"PSmain", "ps_5_0",//エントリーポイント名,シェーダーモデル指定

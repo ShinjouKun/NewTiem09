@@ -7,6 +7,7 @@
 #include"ModelRenderer.h"
 #include"ParticleManager.h"
 #include"Track.h"
+#include"Sound.h"
 
 using namespace std;
 class Player :public BaseObject
@@ -43,9 +44,13 @@ private:
 	//制御用フラグ
 	bool shotFlag =false;
 	int shotcnt = 0;
-	bool hitFlag = false;
 	Vector3 AIMPos;
 	//ステータス
 	int HP;
 	int bulletStock;//弾をいっぱいだすため
+	bool HitFlag;//無敵時間のため
+	int HitCount;
+	Sound* sound;
+	float red;
+	
 };

@@ -12,6 +12,7 @@ Bullet::Bullet(Vector3 pos, Vector3 ang, ObjectManager * obj, std::shared_ptr<Mo
 
 Bullet::~Bullet()
 {
+	
 }
 
 void Bullet::Init()
@@ -58,16 +59,18 @@ void Bullet::Hit(BaseObject & other)
 	if (objType == BULLET&& (other.GetType() == ObjectType::ENEMY|| other.GetType() == ObjectType::BOSS || other.GetType() == ObjectType::ENEMYBULLET))
 	{
 		sound->Play("Resouse/bom.wav");
-		BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+	    BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+		
 		death = true;
 	}
 	if (objType == ENEMYBULLET && (other.GetType() == ObjectType::PLAYER || other.GetType() == ObjectType::BULLET))
 	{
 		sound->Play("Resouse/bom.wav");
 		BulletParticleBox->EmitterUpdate("Bom", Vector3(position.x, position.y, position.z), angle);
+		
 		death = true;
 	}
-
+	
 	
 }
 

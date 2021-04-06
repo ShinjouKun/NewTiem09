@@ -77,7 +77,7 @@ struct ParticleData//描画用
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
-	UINT texNum;//テクスチャ番号
+	TexData* texData;
 	Vector3 ancPoint3D;
 	//パーティクルリスト
 	std::forward_list<ParticleStateus>particles;
@@ -93,7 +93,6 @@ public:
 	void OllUpDate();
 	void CreateBuff(const string & key);
 	void CreatePlane();//パーティクル用のいたポリ
-	void CreateTexture(const string& filename);//テクスチャの適用(いらないかも)
 	void CreateParticleData(const string& key,const string& filename);//パーティクル情報を作る
 	void DrawParticleBill(const string& key);//全方向ビルボード
 	void DrawParticleBillY(const string& key);//Y軸ビルボード
@@ -117,6 +116,7 @@ public:
 	~ParticleEmitterBox();
 	void LoadAndSet(const string& key,const string& filename);//TexLoaderを呼び出し、TexRenderに渡してバッファをセットする
 	void EmitterUpdate(const string& key, const Vector3& pos,const Vector3& angle);//四方に広がる
+	void EmitterUpdateBIG(const string& key, const Vector3& pos, const Vector3& angle);//四方に広がる
 	void EmitterUpdateUpGas(const string& key, const Vector3& pos, const Vector3& angle);//上に排出される
 	void SetPos(Vector3 pos);
 	void SetAngle(Vector3 angle);

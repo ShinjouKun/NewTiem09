@@ -10,13 +10,13 @@ using namespace std;
 
 enum mpattern {
 
-	Fixation,
-	Tracking_A,
-	Tracking_B_LR,
-	Tracking_B_UB,
-	Tracking_C,
-	Armor,
-	Recovery,
+	Fixation,//定点
+	Tracking_A,//追尾型１（後ろからくる）
+	Tracking_B_LR,//左右移動追尾
+	Tracking_B_UB,//上下移動ついび
+	Tracking_C,//ranndamu
+	Armor,//装甲型突っ込んでくる奴
+	Recovery,//倒すと回復
 
 };
 
@@ -56,6 +56,8 @@ private:
 	
 	bool Wait(float waittime);
 
+	void Shot();
+
 private:
 	ObjectManager* objM;
 	shared_ptr<ModelRenderer>enemyModel;
@@ -74,7 +76,7 @@ private:
 
 	int shotDamageAmount = 0; //ダメージ量
 	int shotCount; 
-	int tackletime = 300;		//タックルタイム
+	int tackletime = 150;		//タックルタイム
 
 	bool wait = false;			//移動後待ち
 	int ArrivalTime;			//出現時間
@@ -93,5 +95,8 @@ private:
 
 	const int StartMovingDist = 60; //移動開始距離：アーマータイプ用
 	const int finishTime = 0;
-	   	 
+	bool ShotFlag;
+	int ShotCount;
+
+	int bulletStock;//弾をいっぱいだすため
 };

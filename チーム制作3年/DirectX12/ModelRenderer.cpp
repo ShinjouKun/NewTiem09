@@ -2,18 +2,13 @@
 #include"Camera.h"
 #include"Window.h"
 #include"DirectXManager.h"
-#include"TexLoader.h"
+
 
 
 ModelRenderer::ModelRenderer(PipeLine* pipeline)
 	:pipeLine(pipeline)
 {
-	drawData.texNum = 0;
-	matProjection = Matrix4::Identity;
-	matProjection.m[3][0] = -1.0f;
-	matProjection.m[3][1] = 1.0f;
-	matProjection.m[0][0] = 2.0f / Window::Window_Width;
-	matProjection.m[1][1] = -2.0f / Window::Window_Height;
+	Init();
 }
 
 ModelRenderer::~ModelRenderer()
@@ -22,42 +17,27 @@ ModelRenderer::~ModelRenderer()
 	drawDatas.clear();
 }
 
+void ModelRenderer::Init()
+{
+	matProjection = Matrix4::Identity;
+	matProjection.m[3][0] = -1.0f;
+	matProjection.m[3][1] = 1.0f;
+	matProjection.m[0][0] = 2.0f / Window::Window_Width;
+	matProjection.m[1][1] = -2.0f / Window::Window_Height;
+}
+
 void ModelRenderer::AddModel(const string& key,const string& filename, const string& texName)
 {
 	OBJData* data;
 	modelName = key;//キーワード登録
-	data = &ModelLoader::GetInstance()->GetOBJData(filename);
+	//TexNameをキーにテクスチャデータを呼び出してdrawDataに登録する
+	drawData.texData = &TexLoader::GetInstance(pipeLine)->GetTexList(texName);
+	data = &ModelLoader::GetInstance(pipeLine)->GetOBJData(filename);
 	SetBuffer(data);//バッファーのセット
-	CreateTexture(texName);//モデル用のテクスチャデータをセット
+	
 	datas.emplace(modelName,data);//リストに保管
-	drawData.texNum++;
 }
 
-void ModelRenderer::CreateTexture(string texName)
-{
-	UINT descriptorHandleIncrementSize;
-
-	descriptorHandleIncrementSize =
-		DirectXManager::GetInstance()->Dev()->
-		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	ComPtr<ID3D12Resource> res;
-	res = TexLoader::GetInstance()->GetTexList(texName);
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // 設定構造体
-	D3D12_RESOURCE_DESC resDesc = res->GetDesc();//受け取る
-	srvDesc.Format = resDesc.Format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = 1;
-
-	
-	DirectXManager::GetInstance()->Dev()->CreateShaderResourceView(res.Get(),
-		&srvDesc,
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(pipeLine->GetDescripterHeap()->GetCPUDescriptorHandleForHeapStart(),
-			drawData.texNum,
-			descriptorHandleIncrementSize));
-	
-	//drawData.texNum++;
-}
 
 void ModelRenderer::SetMaterial(OBJMatM * matData, ConstMap* map)
 {
@@ -149,7 +129,7 @@ void ModelRenderer::Draw(const string& key,const Vector3& pos, const Vector3& an
 		
 		auto d = drawDatas[key];
 		
-		d.texNum = d.texNum;//テクスチャの番号を適用
+		//d.texNum = d.texNum;//テクスチャの番号を適用
 		d.matWorld = Matrix4::Identity;
 		d.matWorld = Matrix4::createTranslation(d.ancPoint3D);
 		d.matWorld *= Matrix4::createScale(scale);
@@ -175,7 +155,7 @@ void ModelRenderer::Draw(const string& key,const Vector3& pos, const Vector3& an
 			1,
 			CD3DX12_GPU_DESCRIPTOR_HANDLE(
 				pipeLine->GetDescripterHeap()->GetGPUDescriptorHandleForHeapStart(),
-				d.texNum,
+				d.texData->TexNum,//ここをTexDataのTexNumを渡す
 				DirectXManager::GetInstance()->Dev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 		//描画コマンド
 		DirectXManager::GetInstance()->CmdList()->DrawIndexedInstanced(static_cast<UINT>(datas[key]->mesh.index.size()), 1, 0, 0, 0);

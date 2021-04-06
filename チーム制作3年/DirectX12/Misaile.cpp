@@ -13,6 +13,7 @@ Misaile::Misaile(Vector3 pos, Vector3 ang, ObjectManager * obj, shared_ptr<Model
 
 Misaile::~Misaile()
 {
+	
 }
 
 void Misaile::MisaileMove()
@@ -71,7 +72,7 @@ void Misaile::Init()
 	death = false;
 
 	SphereSize = 2.0f;
-	speed = 0.5f;
+	speed = 1.0f;
 	sound = new Sound();
 	sound->LoadSE("Resouse/bom.wav");
 }
@@ -89,9 +90,8 @@ void Misaile::Update()
 	default:
 		break;
 	}
-	EnemyMisaileMove();
 	alive++;
-	if (alive >= 150)
+	if (alive >= 100)
 	{
 	  death = true;
 	}

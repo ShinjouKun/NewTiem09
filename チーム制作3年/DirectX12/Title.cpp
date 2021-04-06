@@ -15,6 +15,8 @@ Title::~Title()
 
 void Title::StartScene()
 {
+	fade = 0.0f;
+	wait = 0;
 	camera->SetEye(Vector3(0.0f,6.0f,-90.0f));
 	camera->SetTarget(Vector3(0.0f, 6.0f,-100.0f));
 	BaseScene::mModel->AddModel("Taihou", "Resouse/taihou.obj", "Resouse/taihou.png");
@@ -24,23 +26,34 @@ void Title::StartScene()
 	BaseScene::mModel->AddModel("Daiza", "Resouse/daiza.obj", "Resouse/daiza.png");
 	BaseScene::mModel->SetAncPoint("Daiza", Vector3(0.0f, -1.0f, 0.0f));
 	
-	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/sora.png");
-	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/sougen.jpg");
+	BaseScene::mModel->AddModel("Sora", "Resouse/skydome.obj", "Resouse/skydome.jpg");
+	BaseScene::mModel->AddModel("Ground", "Resouse/ground.obj", "Resouse/ground.png");
 	BaseScene::mSprite->AddTexture("Title", "Resouse/Title.png");
+	BaseScene::mSprite->AddTexture("Fade", "Resouse/fade.png");
 	sound = new Sound();
 	sound->LoadBGM("Resouse/TITLE.wav");
 	sound->Play("Resouse/TITLE.wav");
 	se = new Sound();
 	se->LoadSE("Resouse/Click.wav");
+	fadeFlag = false;
 }
 
 void Title::UpdateScene()
 {
-	if (Input::KeyDown(DIK_1))
+	wait++;
+	if (wait>=30&&(Input::KeyDown(DIK_1) || Input::PushButton(BUTTON_A)))
 	{
 		se->Play("Resouse/Click.wav");
-		NextScene(std::make_shared<GamePlay>());
-		sound->Stop();
+		fadeFlag = true;
+	}
+	if (fadeFlag)
+	{
+		fade += 0.01f;
+		if (fade >= 1.0f)
+		{
+			NextScene(std::make_shared<GamePlay>());
+			sound->Stop();
+		}
 	}
 }
 
@@ -55,4 +68,5 @@ void Title::DrawScene()
 
 	DirectXManager::GetInstance()->SetData2D();
 	BaseScene::mSprite->Draw("Title", Vector3(0, 20, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, 1));
+	BaseScene::mSprite->Draw("Fade", Vector3(0, 0, 0), 0.0f, Vector2(1, 1), Vector4(1, 1, 1, fade));
 }

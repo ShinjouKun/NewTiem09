@@ -32,7 +32,7 @@ struct SpriteDatas
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	Matrix4 matWorld;//ワールド行列
 	Vector4 color;
-	UINT texNum;//テクスチャ番号
+	TexData* texData;//テクスチャ情報（番号込み）
 	Vector2 texSize;//テクスチャのサイズ
 	Vector2 ancPoint;//アンカーポイント
 	Vector4 texUV;//テクスチャの切り取り
@@ -53,7 +53,7 @@ public:
 	void SetBuffer();//バッファーのセット
 	void SetUV(const string& name, float left, float top, float right, float bottom, bool inversionX, bool inversionY);
 	void SetAncPoint(const string& name,const Vector2& point);
-	void CreateTexture(const string& name);
+
 	void AddTexture(const string& key,const string& name);//使うテクスチャを追加する
 	void Draw(const string& name, const Vector3& pos,float angle, const Vector2& size,const Vector4& color);
 private:

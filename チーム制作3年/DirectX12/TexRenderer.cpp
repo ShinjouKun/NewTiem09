@@ -16,12 +16,10 @@ TexRenderer::~TexRenderer()
 
 void TexRenderer::Init()
 {
-	data.texNum = 200;//FixMe
 	matProjection.m[3][0] = -1.0f;
 	matProjection.m[3][1] = 1.0f;
 	matProjection.m[0][0] = 2.0f / Window::Window_Width;
 	matProjection.m[1][1] = -2.0f / Window::Window_Height;
-	
 }
 
 void TexRenderer::CreateVert()
@@ -140,39 +138,16 @@ void TexRenderer::SetAncPoint(const string& key,const Vector2& point)
 	spriteList.emplace(key, d);
 }
 
-void TexRenderer::CreateTexture(const string& name)
-{
-	UINT descriptorHandleIncrementSize;
-
-	descriptorHandleIncrementSize =
-		DirectXManager::GetInstance()->Dev()->
-		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	ComPtr<ID3D12Resource> res;
-	res = TexLoader::GetInstance()->GetTexList(name);
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // 設定構造体
-	D3D12_RESOURCE_DESC resDesc = res->GetDesc();//受け取る
-	srvDesc.Format = resDesc.Format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = 1;
-
-	//data.texNum = 300;
-	DirectXManager::GetInstance()->Dev()->CreateShaderResourceView(res.Get(),
-		&srvDesc,
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(pipeLine->GetDescripterHeap()->GetCPUDescriptorHandleForHeapStart(),
-			data.texNum,
-			descriptorHandleIncrementSize));
-	
-	
-}
 
 
 void TexRenderer::AddTexture(const string& key,const string& filename)
 {
 	texName = key;//キーワード登録
+	//TexNameをキーにテクスチャデータを呼び出してdataに登録する
+	data.texData = &TexLoader::GetInstance(pipeLine)->GetTexList(filename);
 	//頂点データを画像サイズに書き換え
-	data.texSize.x = (float)TexLoader::GetInstance()->GetTexList(filename)->GetDesc().Width;
-	data.texSize.y = (float)TexLoader::GetInstance()->GetTexList(filename)->GetDesc().Height;
+	data.texSize.x = (float)data.texData->texResource->GetDesc().Width;
+	data.texSize.y = (float)data.texData->texResource->GetDesc().Height;
 	CreateVert();
 	vertex[0].pos = Vector3(0.0f, data.texSize.y, 0.0f);//左下
 	vertex[1].pos = Vector3(0.0f, 0.0f, 0.0f);//左上
@@ -181,9 +156,7 @@ void TexRenderer::AddTexture(const string& key,const string& filename)
 	data.ancPoint = Vector2(0.0f, 0.0f);
 	data.texUV = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
 	SetBuffer();
-	CreateTexture(filename);
 	spriteList.emplace(texName,data);//転送
-	data.texNum++;//カウントを進める
 }
 
 void TexRenderer::Draw(const string& name, const Vector3 & pos, float angle, const Vector2 & size, const Vector4 & color)
@@ -212,7 +185,7 @@ void TexRenderer::Draw(const string& name, const Vector3 & pos, float angle, con
 	DirectXManager::GetInstance()->CmdList()->SetGraphicsRootDescriptorTable(
 		1,
 		CD3DX12_GPU_DESCRIPTOR_HANDLE(pipeLine->GetDescripterHeap()->GetGPUDescriptorHandleForHeapStart(),
-			d.texNum,
+			d.texData->TexNum,//dataのTexDataのTexNUMを渡す
 			DirectXManager::GetInstance()->Dev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 
 	//描画コマンド

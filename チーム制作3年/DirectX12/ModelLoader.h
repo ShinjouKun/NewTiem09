@@ -9,6 +9,7 @@
 #include<d3d12.h>
 #include<d3dx12.h>
 #include<map>
+#include"PipeLine.h"
 
 
 #pragma comment(lib,"d3d12.lib")
@@ -52,11 +53,11 @@ class ModelLoader
 {
 public:
     OBJData& GetOBJData(const string& keyWord);
-	ModelLoader();
+	ModelLoader(PipeLine* pipeline);
 	~ModelLoader();
 	void Load(const string& filename);
 	
-	static ModelLoader* GetInstance();
+	static ModelLoader* GetInstance(PipeLine* pipeline);
 private:
 	
 	//解析用
@@ -69,5 +70,5 @@ private:
 	bool CreateMatrial(OBJData &objMat, string filePath);
 	//obj
 	map<const string, OBJData>Datas;//モデルデータのリスト
-	
+	PipeLine* pipeLine = nullptr;
 };

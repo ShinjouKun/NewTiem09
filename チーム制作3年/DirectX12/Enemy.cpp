@@ -1,6 +1,6 @@
 #include "Enemy.h"
 #include"Input.h"
-
+#include"Misaile.h"
 
 float RandamValue(float min, float max)
 {
@@ -42,7 +42,7 @@ void Enemy::Init()
 	numName = name + num;
 
 	enemyModel->AddModel(numName,"Resouse/enemy2.obj","Resouse/enemy2.png");
-	//enemyModel->SetAncPoint(numName, Vector3(-2.0f, 0.0f, -2.0f));
+	//enemyModel->SetAncPoint(numName, Vector3(0.0f, 2.0f, -2.0f));
 	
 	ArrivalTime = 0;
 	movePoint = Vector3(100, 50, position.z);
@@ -52,8 +52,9 @@ void Enemy::Init()
 		RandamValue(0, 10),
 		ArrivalPos.z);
 
-	SphereSize = 1.0f; //判定サイズ
-
+	SphereSize = 1.5f; //判定サイズ
+	ShotFlag = false;
+	ShotCount = 0;
 }
 
 void Enemy::Update()
@@ -62,6 +63,11 @@ void Enemy::Update()
 
 	MovePattern(move_pattern);
 	
+	//球数上限を設け
+	if (bulletStock >= 150)
+	{
+		bulletStock = 100;
+	}
 }
 
 void Enemy::Rend()
@@ -91,6 +97,10 @@ void Enemy::Hit(BaseObject & other)
 		hitFlag = false;
 	}
 
+	if (other.GetType() == ObjectType::PLAYER)
+	{
+		death = true;
+	}
 }
 
 
@@ -103,7 +113,16 @@ void Enemy::MovePattern(mpattern patternnum)
 #pragma region 固定
 		shotDamageAmount = 1;
 		speed = 0;
-
+		////攻撃
+		//if (!ShotFlag)
+		//{
+		//	ShotCount++;
+		//	if (ShotCount >= 150)
+		//	{
+		//		ShotFlag = true;
+		//		Shot();
+		//	}
+		//}
 		break;
 
 #pragma endregion
@@ -137,23 +156,23 @@ void Enemy::MovePattern(mpattern patternnum)
 		if (!wait)
 		{
 
-			if (movetime < 200) movetime++;
+			if (movetime < 400) movetime++;
 
 			position.x = Easing::ease_in_back(
 				movetime,
 				position.x,
 				movePoint.x + position.x,
 				400);
+			position.x = position.x / 2;
+			if (position.x >= 18) {
 
-			if (position.x >= 98) {
-
-				movePoint.x = 100;
+				movePoint.x = 20;
 				wait = true;
 
 			}
-			else if (position.x <= -98)
+			else if (position.x <= -18)
 			{
-				movePoint.x = -100;
+				movePoint.x = -20;
 				wait = true;
 
 			}
@@ -244,7 +263,7 @@ void Enemy::MovePattern(mpattern patternnum)
 				movetime,
 				position,
 				ranMovePoint - position,
-				400);
+				40);
 
 			if ((int)position.x == (int)ranMovePoint.x &
 				(int)position.y == (int)ranMovePoint.y)
@@ -279,6 +298,13 @@ void Enemy::MovePattern(mpattern patternnum)
 #pragma region 装甲
 
 		shotDamageAmount = 3;
+		for (auto& t : objM->getUseList())
+		{
+			if (t->GetType() == ObjectType::PLAYER)
+			{
+				pos_P = t->GetPosition();
+			}
+		}
 
 		dist = pos_P - position;
 
@@ -351,4 +377,11 @@ void Enemy::RanPointGenerate(Vector2 min, Vector2 max)
 		min.y + rand()*(max.y - min.y + 1.0) / (1.0 + RAND_MAX),
 		ArrivalPos.z);
 
+}
+
+void Enemy::Shot()
+{
+	objM->Add(new Misaile(Vector3(position.x, position.y, position.z), Vector3(angle.x, angle.y, angle.z), objM, enemyModel, enemyParticle, objType, bulletStock));
+	ShotCount = 0;
+	ShotFlag = false;
 }

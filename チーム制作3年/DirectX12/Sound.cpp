@@ -11,8 +11,10 @@ Sound::~Sound()
 {
 	sourceVoice->Stop();
 	sourceVoice->DestroyVoice();
+	sourceVoice = nullptr;
 	masterVoice->DestroyVoice();
 	masterVoice = nullptr;
+	xAudio2->Release();
 	CoUninitialize();
 }
 
@@ -63,7 +65,7 @@ void Sound::LoadSE(const char*filename)
 	buf.pAudioData = (BYTE*)pBuffer;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 	buf.AudioBytes = data.size;
-	//buf.LoopCount = XAUDIO2_LOOP_INFINITE;//無限ループ
+	buf.LoopCount = 0;
 
 	//baffwoセット
 	sourceVoice->SubmitSourceBuffer(&buf);
